@@ -1,0 +1,321 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "feed": {
+    "xmlns": "http://www.w3.org/2005/Atom",
+    "xmlns$openSearch": "http://a9.com/-/spec/opensearchrss/1.0/",
+    "xmlns$blogger": "http://schemas.google.com/blogger/2008",
+    "xmlns$georss": "http://www.georss.org/georss",
+    "xmlns$gd": "http://schemas.google.com/g/2005",
+    "xmlns$thr": "http://purl.org/syndication/thread/1.0",
+    "id": { "$t": "tag:blogger.com,1999:blog-8277077996046083588" },
+    "updated": { "$t": "2023-02-13T02:28:45.746+01:00" },
+    "category": [
+      { "term": "argan" },
+      { "term": "cosmetic" },
+      { "term": "en" },
+      { "term": "price_45$" },
+      { "term": "ar" }
+    ],
+    "title": { "type": "text", "$t": "MeryMar Shop" },
+    "subtitle": { "type": "html", "$t": "" },
+    "link": [
+      {
+        "rel": "http://schemas.google.com/g/2005#feed",
+        "type": "application/atom+xml",
+        "href": "https://merymar-shop.blogspot.com/feeds/posts/default"
+      },
+      {
+        "rel": "self",
+        "type": "application/atom+xml",
+        "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default?alt=json"
+      },
+      {
+        "rel": "alternate",
+        "type": "text/html",
+        "href": "https://merymar-shop.blogspot.com/"
+      },
+      { "rel": "hub", "href": "http://pubsubhubbub.appspot.com/" }
+    ],
+    "author": [
+      {
+        "name": { "$t": "Unknown" },
+        "email": { "$t": "noreply@blogger.com" },
+        "gd$image": {
+          "rel": "http://schemas.google.com/g/2005#thumbnail",
+          "width": "16",
+          "height": "16",
+          "src": "https://img1.blogblog.com/img/b16-rounded.gif"
+        }
+      }
+    ],
+    "generator": {
+      "version": "7.00",
+      "uri": "http://www.blogger.com",
+      "$t": "Blogger"
+    },
+    "openSearch$totalResults": { "$t": "5" },
+    "openSearch$startIndex": { "$t": "1" },
+    "openSearch$itemsPerPage": { "$t": "25" },
+    "entry": [
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-8277077996046083588.post-8985531086806243822"
+        },
+        "published": { "$t": "2023-02-13T01:46:00.002+01:00" },
+        "updated": { "$t": "2023-02-13T01:46:21.689+01:00" },
+        "category": [
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "argan" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "cosmetic" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "en" }
+        ],
+        "title": { "type": "text", "$t": "test cleaner" },
+        "content": {
+          "type": "html",
+          "$t": "\u003Cbr /\u003E\u003Cbr /\u003E Le Cul de bouteille impose un nouveau standard en termes de qualité d'image : rarement vos clichés n'auront été aussi déformés, flous, ...\u003Cbr /\u003E\u003Ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEhZLVyxdi9O1NGGjGLbKr9hq-oqQb_YRY____4LKgLqoh_7QMuZCctmhSL0qcU6kv-3ymdsXCpS5MGejtFzqAx3FJ7NrFYMXd57GCqhdTAW1rTI7MHh2-Ig-iuH4wjc76NjiJ1nrAnxWYqLQFFuwFhUAmeQ9DIxAqMoe7y3u8CIAVZO9OrgLxCAi7gXIg\"\u003E\u003Cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEhZLVyxdi9O1NGGjGLbKr9hq-oqQb_YRY____4LKgLqoh_7QMuZCctmhSL0qcU6kv-3ymdsXCpS5MGejtFzqAx3FJ7NrFYMXd57GCqhdTAW1rTI7MHh2-Ig-iuH4wjc76NjiJ1nrAnxWYqLQFFuwFhUAmeQ9DIxAqMoe7y3u8CIAVZO9OrgLxCAi7gXIg\" /\u003E\u003C/a\u003E\u003Cbr /\u003Eprice: 125 mad;\u003Cbr /\u003Esize: 2l,5l;\u003Cbr /\u003E\u003Cbr /\u003E\u003Cp\u003E\u003C/p\u003E"
+        },
+        "link": [
+          {
+            "rel": "edit",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/8985531086806243822"
+          },
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/8985531086806243822"
+          },
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://merymar-shop.blogspot.com/2023/02/test-cleaner.html",
+            "title": "test cleaner"
+          }
+        ],
+        "author": [
+          {
+            "name": { "$t": "Unknown" },
+            "email": { "$t": "noreply@blogger.com" },
+            "gd$image": {
+              "rel": "http://schemas.google.com/g/2005#thumbnail",
+              "width": "16",
+              "height": "16",
+              "src": "https://img1.blogblog.com/img/b16-rounded.gif"
+            }
+          }
+        ],
+        "media$thumbnail": {
+          "xmlns$media": "http://search.yahoo.com/mrss/",
+          "url": "https://blogger.googleusercontent.com/img/a/AVvXsEhZLVyxdi9O1NGGjGLbKr9hq-oqQb_YRY____4LKgLqoh_7QMuZCctmhSL0qcU6kv-3ymdsXCpS5MGejtFzqAx3FJ7NrFYMXd57GCqhdTAW1rTI7MHh2-Ig-iuH4wjc76NjiJ1nrAnxWYqLQFFuwFhUAmeQ9DIxAqMoe7y3u8CIAVZO9OrgLxCAi7gXIg=s72-c",
+          "height": "72",
+          "width": "72"
+        }
+      },
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-8277077996046083588.post-4912586213489482613"
+        },
+        "published": { "$t": "2021-08-15T20:36:00.004+01:00" },
+        "updated": { "$t": "2023-02-13T02:14:48.543+01:00" },
+        "category": [
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "ar" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "argan" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "price_45$" }
+        ],
+        "title": { "type": "text", "$t": "أملو " },
+        "content": {
+          "type": "html",
+          "$t": "\u003Cbr /\u003E\u003Cbr /\u003E أملو المحضر بالطريقة التقليدية\u003Cbr /\u003E150 درهم - 750 غرام\u003Cbr /\u003E100 درهم - 350 غرام\u003Cbr /\u003EAMLOU préparé de façon traditionnelle \u003Cbr /\u003E\u003Cbr /\u003Eprice:150 DH;\u003Cbr /\u003Esize: 750g, 1000g, 100g;\u003Cbr /\u003E\u003Ca href=\"https://1.bp.blogspot.com/-W6f8Iw8y9HE/YRlrly2DQuI/AAAAAAAABqI/-ODsx7vuRvgtw8w5ZQkFzuROVBu02vNhQCLcBGAsYHQ/s1040/044f6dd9-e146-434d-b05a-b7826e43b0ab.jpg\"\u003E\u003Cimg border=\"0\" src=\"https://1.bp.blogspot.com/-W6f8Iw8y9HE/YRlrly2DQuI/AAAAAAAABqI/-ODsx7vuRvgtw8w5ZQkFzuROVBu02vNhQCLcBGAsYHQ/w231-h308/044f6dd9-e146-434d-b05a-b7826e43b0ab.jpg\" /\u003E\u003C/a\u003E\u003Cbr /\u003E"
+        },
+        "link": [
+          {
+            "rel": "edit",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/4912586213489482613"
+          },
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/4912586213489482613"
+          },
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://merymar-shop.blogspot.com/2021/08/blog-post.html",
+            "title": "أملو "
+          }
+        ],
+        "author": [
+          {
+            "name": { "$t": "Mery" },
+            "uri": {
+              "$t": "http://www.blogger.com/profile/12221173852141321297"
+            },
+            "email": { "$t": "noreply@blogger.com" },
+            "gd$image": {
+              "rel": "http://schemas.google.com/g/2005#thumbnail",
+              "width": "24",
+              "height": "32",
+              "src": "//2.bp.blogspot.com/-OsXuTGKwHDA/YRlqyqdMS0I/AAAAAAAABpY/mXufTKMGucEl6V8jc-Pg7u8sINL9FfqwACK4BGAYYCw/s113/044f6dd9-e146-434d-b05a-b7826e43b0ab.jpg"
+            }
+          }
+        ],
+        "media$thumbnail": {
+          "xmlns$media": "http://search.yahoo.com/mrss/",
+          "url": "https://1.bp.blogspot.com/-W6f8Iw8y9HE/YRlrly2DQuI/AAAAAAAABqI/-ODsx7vuRvgtw8w5ZQkFzuROVBu02vNhQCLcBGAsYHQ/s72-w231-h308-c/044f6dd9-e146-434d-b05a-b7826e43b0ab.jpg",
+          "height": "72",
+          "width": "72"
+        }
+      },
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-8277077996046083588.post-199403028367379757"
+        },
+        "published": { "$t": "2021-04-21T22:49:00.001+00:00" },
+        "updated": { "$t": "2021-04-21T22:49:46.930+00:00" },
+        "title": { "type": "text", "$t": "Teste2" },
+        "content": {
+          "type": "html",
+          "$t": "Appuyez ici pour ctedteommencer à composer ...\u003Cbr\u003E\u003Cimg width=\"100%\" src=\"https://drive.google.com/uc?id=1Tsl56eHPP3Mfq8J4lLuj2RPLNMVAAgJV\"\u003E"
+        },
+        "link": [
+          {
+            "rel": "edit",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/199403028367379757"
+          },
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/199403028367379757"
+          },
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://merymar-shop.blogspot.com/2021/04/teste2.html",
+            "title": "Teste2"
+          }
+        ],
+        "author": [
+          {
+            "name": { "$t": "Mery" },
+            "uri": {
+              "$t": "http://www.blogger.com/profile/12221173852141321297"
+            },
+            "email": { "$t": "noreply@blogger.com" },
+            "gd$image": {
+              "rel": "http://schemas.google.com/g/2005#thumbnail",
+              "width": "24",
+              "height": "32",
+              "src": "//2.bp.blogspot.com/-OsXuTGKwHDA/YRlqyqdMS0I/AAAAAAAABpY/mXufTKMGucEl6V8jc-Pg7u8sINL9FfqwACK4BGAYYCw/s113/044f6dd9-e146-434d-b05a-b7826e43b0ab.jpg"
+            }
+          }
+        ]
+      },
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-8277077996046083588.post-5717094700492004067"
+        },
+        "published": { "$t": "2021-04-15T22:34:00.005+00:00" },
+        "updated": { "$t": "2023-02-13T02:12:23.303+01:00" },
+        "category": [
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "cosmetic" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "price_45$" }
+        ],
+        "title": { "type": "text", "$t": "Argan oil is a pure" },
+        "content": {
+          "type": "html",
+          "$t": "\u003Cbr /\u003E\u003Cbr /\u003E Argan oil is a pure, cold-pressed oil from the kernels of the Moroccan tree. It is high in the antioxidants vitamin E and ferulic acid to reduce the signs of aging. Heals and soothes dry skin with a balanced combination of fatty acids appropriate for all skin types.\u003Cbr /\u003E\u003Cbr /\u003E\u003Ca href=\"https://1.bp.blogspot.com/-8GfoyOjux8k/YHi_RZCzjZI/AAAAAAABgu8/tuYHaX0sKS41D87zpReXesxUoDBnI-t7QCLcBGAsYHQ/s1024/arganoil_1024x1024.jpg\"\u003E\u003Cimg border=\"0\" src=\"https://1.bp.blogspot.com/-8GfoyOjux8k/YHi_RZCzjZI/AAAAAAABgu8/tuYHaX0sKS41D87zpReXesxUoDBnI-t7QCLcBGAsYHQ/s320/arganoil_1024x1024.jpg\" /\u003E\u003C/a\u003E\u003Cbr /\u003Eprice: 13mad;\u003Cbr /\u003Esize: 20ml, 25ml, 30ml;\u003Cbr /\u003Ecolor:  #85288a,#8a2323;\u003Cbr /\u003E\u003Cbr /\u003E\u003Cbr /\u003E"
+        },
+        "link": [
+          {
+            "rel": "edit",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/5717094700492004067"
+          },
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/5717094700492004067"
+          },
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://merymar-shop.blogspot.com/2021/04/argan-oil-is-pure-cold-pressed-oil-from.html",
+            "title": "Argan oil is a pure"
+          }
+        ],
+        "author": [
+          {
+            "name": { "$t": "Unknown" },
+            "email": { "$t": "noreply@blogger.com" },
+            "gd$image": {
+              "rel": "http://schemas.google.com/g/2005#thumbnail",
+              "width": "16",
+              "height": "16",
+              "src": "https://img1.blogblog.com/img/b16-rounded.gif"
+            }
+          }
+        ],
+        "media$thumbnail": {
+          "xmlns$media": "http://search.yahoo.com/mrss/",
+          "url": "https://1.bp.blogspot.com/-8GfoyOjux8k/YHi_RZCzjZI/AAAAAAABgu8/tuYHaX0sKS41D87zpReXesxUoDBnI-t7QCLcBGAsYHQ/s72-c/arganoil_1024x1024.jpg",
+          "height": "72",
+          "width": "72"
+        }
+      },
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-8277077996046083588.post-3065933996226191981"
+        },
+        "published": { "$t": "2021-04-15T22:32:00.004+00:00" },
+        "updated": { "$t": "2023-02-13T01:39:25.655+01:00" },
+        "category": [
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "argan" },
+          { "scheme": "http://www.blogger.com/atom/ns#", "term": "en" }
+        ],
+        "title": { "type": "text", "$t": "Argan BIO" },
+        "content": {
+          "type": "html",
+          "$t": "\u003Cp\u003E\u003C/p\u003E \u003Cbr /\u003EThis Certified Organic Oil is QAI Certified. The National Organic Program develops, implements, and administers national production, handling, and labeling standards for organic agricultural products. The QAI also accredits the certifying agents (foreign and domestic) who inspect organic production and handling operations to certify that they meet USDA standards.\u003Cbr /\u003E\u003Ca href=\"https://1.bp.blogspot.com/-FOJb5aC_dDk/YHi-u1wG-eI/AAAAAAABgu0/cMa1QyhlvZgQW8G-BNLGphoI6t8N5pdWACLcBGAsYHQ/s230/ArganCO.jpg\"\u003E\u003Cimg border=\"0\" src=\"https://1.bp.blogspot.com/-FOJb5aC_dDk/YHi-u1wG-eI/AAAAAAABgu0/cMa1QyhlvZgQW8G-BNLGphoI6t8N5pdWACLcBGAsYHQ/s0/ArganCO.jpg\" /\u003E\u003C/a\u003E\u003Cbr /\u003E\u003Cbr /\u003E\u003Cbr /\u003Eprice: 65mad\u003Cbr /\u003Esize: 10ml,12ml,90ml\u003Cbr /\u003E\u003Cbr /\u003E\u003Cp\u003E\u003C/p\u003E"
+        },
+        "link": [
+          {
+            "rel": "edit",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/3065933996226191981"
+          },
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://www.blogger.com/feeds/8277077996046083588/posts/default/3065933996226191981"
+          },
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://merymar-shop.blogspot.com/2021/04/argan-test.html",
+            "title": "Argan BIO"
+          }
+        ],
+        "author": [
+          {
+            "name": { "$t": "Unknown" },
+            "email": { "$t": "noreply@blogger.com" },
+            "gd$image": {
+              "rel": "http://schemas.google.com/g/2005#thumbnail",
+              "width": "16",
+              "height": "16",
+              "src": "https://img1.blogblog.com/img/b16-rounded.gif"
+            }
+          }
+        ],
+        "media$thumbnail": {
+          "xmlns$media": "http://search.yahoo.com/mrss/",
+          "url": "https://1.bp.blogspot.com/-FOJb5aC_dDk/YHi-u1wG-eI/AAAAAAABgu0/cMa1QyhlvZgQW8G-BNLGphoI6t8N5pdWACLcBGAsYHQ/s72-c/ArganCO.jpg",
+          "height": "72",
+          "width": "72"
+        }
+      }
+    ]
+  }
+}

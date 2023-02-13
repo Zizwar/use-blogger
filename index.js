@@ -1,13 +1,23 @@
 //console.log("2323");
-const _regexImg = (content) => {
-  var regex = /(https?:\/\/[^ ]*\.(?:gif|png|jpg|jpeg))/i;
-
-  if (new RegExp(regex).test(content)) {
-    const imgurl = regex.exec(content)[0];
-    return imgurl;
-  }
-  return null;
+const regexs = {
+  https: /https(.*?)"/g,
+  dictionary: /{(.*?)}/g,
+  tuple: /((.*?))/g,
+  array: /[(.*?)]/g,
+  src: /src(.*?)" /g,
 };
+const regexIno = (content, pattern = regexs.dictionary) => {
+  let match;
+  const matchArr = [];
+  while ((match = pattern.exec(text))) {
+    match = match[1].trim();
+    matchArr.push(match);
+    console.log(match);
+  }
+};
+//
+
+//
 const data = [];
 
 //all categories
@@ -35,7 +45,7 @@ dataPosts.feed.entry.map(
     category,
     link,
   }) => {
-    const image = _regexImg(_content);
+    const image = urlify(_content); //_regexImg(_content);
     const content = _content.replace(/(<([^>]+)>)/gi, "");
     const categories = category.map((cat) => cat.term);
     return {
@@ -52,6 +62,10 @@ dataPosts.feed.entry.map(
   }
 );
 ///
-
-
+const text = "The quick {brown} fox {jumps} over the lazy dog";
+const pattern = /{(.*?)}/g;
+let match;
+while ((match = pattern.exec(text))) {
+  console.log(match[1]); // Output: "brown", "jumps"
+}
 /*****************/

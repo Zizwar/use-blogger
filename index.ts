@@ -1,5 +1,7 @@
 //console.log("2323");
-import type { NextApiResponse } from "next";
+//import type { NextApiRequest, NextApiResponse } from "next";
+import { writeFileSync } from "fs";
+
 const regexs = {
   https: /https(.*?)"/g,
   dictionary: /{(.*?)}/g,
@@ -67,11 +69,20 @@ const fetchProducts = (dataPosts: any = []) =>
     }
   );
 ///
-const useBlogger = (res: NextApiResponse) =>
+const useBlogger = (cb:any) =>
   fetch(linkJsonAllPostsCategorie(null))
     .then((response) => response.json())
     .then((data) => {
-      res.status(200).json(fetchProducts(data));
+      const file = "wino";
+
+      writeFileSync(`/tmp/${file}.json`, JSON.stringify(data));
+    /*
+      res.status(200).json({
+        file,
+        data,
+      });
+*/
+      cb(fetchProducts(data));
     });
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/

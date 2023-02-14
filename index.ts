@@ -1,4 +1,5 @@
 //console.log("2323");
+import type { NextApiResponse } from "next";
 const regexs = {
   https: /https(.*?)"/g,
   dictionary: /{(.*?)}/g,
@@ -21,7 +22,7 @@ const regexIno = (content: string, pattern = regexs.dictionary) => {
 //const categories = data?.feed?.category?.map((cat) => cat.term);
 
 //get all post each categories
-const linkJsonAllPostsCategorie = (categorie) =>
+const linkJsonAllPostsCategorie = (categorie: any) =>
   `https://www.blogger.com/feeds/${process.env.ID_GOOGLE_BLOG}/posts/default${
     categorie ? "/-/" + categorie : ""
   }/?alt=json`;
@@ -66,10 +67,12 @@ const fetchProducts = (dataPosts: any = []) =>
     }
   );
 ///
-const useBlogger = (res) =>
-  fetch(linkJsonAllPostsCategorie())
+const useBlogger = (res: NextApiResponse) =>
+  fetch(linkJsonAllPostsCategorie(null))
     .then((response) => response.json())
-    .then((data) => res.status(200).json(fetchProducts(data)));
+    .then((data) => {
+      res.status(200).json(fetchProducts(data));
+    });
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/
 

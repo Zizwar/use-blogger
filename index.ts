@@ -1,7 +1,7 @@
 //console.log("2323");
 //import type { NextApiRequest, NextApiResponse } from "next";
 import { existsSync, readFileSync, writeFileSync } from "fs";
-import path from "path";
+
 
 const regexs = {
   https: /https(.*?)"/g,
@@ -74,7 +74,7 @@ const useBlogger = (cb: any) => {
   const file = "test";
   if (existsSync(`/tmp/${file}.json`)) {
     console.log("===exist :)");
-    const textData = readFileSync(`/tmp/${file}.json`);
+    const textData:any = readFileSync(`/tmp/${file}.json`);
 
     cb(JSON.parse(textData));
     return;

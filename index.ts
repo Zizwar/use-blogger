@@ -1,6 +1,7 @@
 //console.log("2323");
 //import type { NextApiRequest, NextApiResponse } from "next";
-import { writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
+import path from "path";
 
 const regexs = {
   https: /https(.*?)"/g,
@@ -69,14 +70,24 @@ const fetchProducts = (dataPosts: any = []) =>
     }
   );
 ///
-const useBlogger = (cb:any) =>
+const useBlogger = (cb: any) => {
+  const file = "test";
+  if (existsSync(`/tmp/${file}.json`)) {
+    console.log("===exist :)");
+    const textData = readFileSync(`/tmp/${file}.json`);
+
+    cb(JSON.parse(textData));
+    return;
+  }
+  //
+  console.log("===no file exist :(");
+
   fetch(linkJsonAllPostsCategorie(null))
     .then((response) => response.json())
     .then((data) => {
-      const file = "wino";
-
+      //write file in tmp system
       writeFileSync(`/tmp/${file}.json`, JSON.stringify(data));
-    /*
+      /*
       res.status(200).json({
         file,
         data,
@@ -84,6 +95,7 @@ const useBlogger = (cb:any) =>
 */
       cb(fetchProducts(data));
     });
+};
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/
 

@@ -73,14 +73,14 @@ const fetchProducts = (dataPosts: any = []) =>
 const useBlogger = (cb: any) => {
   const file = "test";
   if (existsSync(`/tmp/${file}.json`)) {
-    console.log("===exist :)");
+   // console.log("===exist :)");
     const textData:any = readFileSync(`/tmp/${file}.json`);
 
     cb(JSON.parse(textData));
     return;
   }
   //
-  console.log("===no file exist :(");
+  //console.log("===no file exist :(");
 
   fetch(linkJsonAllPostsCategorie(null))
     .then((response) => response.json())

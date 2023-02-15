@@ -1,0 +1,28 @@
+{
+  "name": "query-google-blogger",
+  "version": "1.0.0",
+  "description": "query google blogger",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zizwar/query-google-blogger.git"
+  },
+  "keywords": [
+    "query",
+    "blogger",
+    "google",
+    "api",
+    "cms",
+    "blog"
+  ],
+  "author": "brahim bidi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zizwar/query-google-blogger/issues"
+  },
+  "homepage": "https://github.com/Zizwar/query-google-blogger#readme"
+}

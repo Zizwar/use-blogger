@@ -9,14 +9,19 @@
     <title>Document</title>
   </head>
   <body>
-    <script>
-      import QueryGBlogger from "main.js";
+    <script type="module">
+      import QueryGBlogger from "./main.js";
 
       const qgb = new QueryGBlogger({
         blogId: "8277077996046083588",
         isBrowser: true,
       });
-      console.log("get data=", qgb.data);
+
+      const callback = (data) => {
+        console.log("###=version:", data.version);
+        alert("rororo cv=" + data.version);
+      };
+      qgb.load({ callback });
     </script>
   </body>
 </html>

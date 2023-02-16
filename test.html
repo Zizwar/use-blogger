@@ -18,10 +18,16 @@
       });
 
       const callback = (data) => {
-        console.log("###=version:", data.version);
-        alert("rororo cv=" + data.version);
+        
+        alert("version:" + data.version);
       };
-      qgb.load({ callback });
+      const onerror = () => {
+        console.error("Error occurred while loading feed blogger");
+      };
+      const onload = () => {
+        console.log("load script feed :)");
+      };
+      qgb.load({ callback, onerror, onload });
     </script>
   </body>
 </html>

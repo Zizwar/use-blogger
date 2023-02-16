@@ -14,7 +14,7 @@ export default class QueryGBlogger {
     this.isBrowser = isBrowser;
     console.log("start qgb");
   }
-  load({ callback }) {
+  load({ callback, onload, onerror }) {
     window["$callback"] = callback;
     // if (this.isBrowser) {
     const url = URL_BLOGGER_BROWSER({
@@ -26,12 +26,8 @@ export default class QueryGBlogger {
     script.src = url;
     script.async = true;
 
-    script.onerror = () => {
-      console.error("Error occurred while loading feed blogger");
-    };
-    script.onload = () => {
-      console.log("load script feed :)");
-    };
+    script.onerror = onerror;
+    script.onload = onload;
     document.body.append(script);
   }
 

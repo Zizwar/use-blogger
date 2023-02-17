@@ -27,10 +27,12 @@ const regexIno = (
 //const categories = data?.feed?.category?.map((cat) => cat.term);
 
 //get all post each categories
-const linkJsonAllPostsCategorie = (categorie: any) =>
-  `https://www.blogger.com/feeds/${process.env.ID_GOOGLE_BLOG}/posts/default${
-    categorie ? `/-/${categorie}` : ""
-  }/?alt=json`;
+const linkJsonAllPostsCategorie = ({ category, postId = "" }: any) =>
+  postId
+    ? `https://www.blogger.com/feeds/${process.env.ID_GOOGLE_BLOG}/posts/default/${postId}?alt=json`
+    : `https://www.blogger.com/feeds/${
+        process.env.ID_GOOGLE_BLOG
+      }/posts/default${category ? `/-/${category}` : ""}?alt=json`;
 // `${process.env.LINK_GOOGLE_BLOGGER}feeds/posts/default/-/${categorie}?alt=json`;
 
 //foreach categories linkJsonAllPostsCategorie
@@ -40,93 +42,96 @@ const linkJsonAllPostsCategorie = (categorie: any) =>
 //const content = dataPosts.feed.entry[0].content.$t;
 
 //fet lllop
+const product =
+  ({
+    id: { $t: _id },
+    content: { $t: _content },
+    media$thumbnail, //: thumbnail,//{ url: thumbnail },
+    published: { $t: published },
+    updated: { $t: updated },
+    title: { $t: name },
+    category,
+    link,
+  }: any) => {
+    const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
+      (img: string = "") => img.split('"')[1]
+    ); //_regexImg(_content);
 
-function fetchProducts(dataPosts: any = []) {
-  return dataPosts.feed?.entry?.map(
-    ({
-      id: { $t: _id },
-      content: { $t: _content },
-      media$thumbnail, //: thumbnail,//{ url: thumbnail },
-      published: { $t: published },
-      updated: { $t: updated },
-      title: { $t: name },
-      category,
-      link,
-    }: any) => {
-      const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
-        (img: string = "") => img.split('"')[1]
-      ); //_regexImg(_content);
+    const content = _content.replace(/(<([^>]+)>)/gi, "");
+    function getVar(variable: any, _type: string = "string"): any {
+      let _res: any =
+        regexIno(content, new RegExp(`${variable}*=(.*?);`, "g")) || [];
 
-      const content = _content.replace(/(<([^>]+)>)/gi, "");
-      function getVar(variable: any, _type: string = "string"): any {
-        let _res: any =
-          regexIno(content, new RegExp(`${variable}*=(.*?);`, "g")) || [];
-          
-       
-        if (_type === "full") return _res;
-        let res = _res[0];
-        if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;
-        if (_type === "array") {
-          res = res?.split(",");
-        }
-
-        return res;
+      if (_type === "full") return _res;
+      let res = _res[0];
+      if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;
+      if (_type === "array") {
+        res = res?.split(",");
       }
-      const price = getVar("price", "number");
-      const discount = getVar("discount", "number");
-      const quantityAvailable = getVar("quantityAvailable", "number");
-      const currentPrice = getVar("currentPrice ", "number");
 
-      const sizes = getVar("sizes ", "array");
-      const colors = getVar("colors ", "array");
-
-      ///
-
-      const categories = category?.map((cat: any) => cat.term) || [];
-      const thumbnail = media$thumbnail?.url;
-      const id = _id.split("post-")[1];
-
-      return {
-        id,
-        name,
-        thumbnail,
-        published,
-        link,
-        images,
-        content,
-        categories,
-        category:categories[0],
-        price,
-        discount,
-        quantityAvailable,
-        currentPrice,
-        sizes,
-        colors,
-        updated,
-      };
+      return res;
     }
-  );
+    const price = getVar("price", "number");
+    const discount = getVar("discount", "number");
+    const quantityAvailable = getVar("quantityAvailable", "number");
+    const currentPrice = getVar("currentPrice ", "number");
+
+    const sizes = getVar("sizes ", "array");
+    const colors = getVar("colors ", "array");
+
+    ///
+
+    const categories = category?.map((cat: any) => cat.term) || [];
+    const thumbnail = media$thumbnail?.url;
+    const id = _id.split("post-")[1];
+
+    return {
+      id,
+      name,
+      thumbnail,
+      published,
+      link,
+      images,
+      content,
+      categories,
+      category: categories[0],
+      price,
+      discount,
+      quantityAvailable,
+      currentPrice,
+      sizes,
+      colors,
+      updated,
+    };
+  }
+
+function products(dataPosts: any = []) {
+  return dataPosts.feed?.entry?.map(product)
 }
 ///
-function useBlogger(cb: any, saveTmp = null) {
+function useBlogger(cb: any, opt: any = []) {
   // const saveTmp ="test";
+  const { saveTmp } = opt;
   if (saveTmp && existsSync(`/tmp/${saveTmp}.json`)) {
-    // console.log("===exist :)");
+    console.log("===exist :)");
     const textData: any = readFileSync(`/tmp/${saveTmp}.json`);
     cb(JSON.parse(textData));
     return;
   }
   //
   //console.log("===no file exist :(");
-  fetch(linkJsonAllPostsCategorie(null))
+  fetch(linkJsonAllPostsCategorie(opt))
     .then((response) => response.json())
     .then((data) => {
+     // console.log("opt=", linkJsonAllPostsCategorie(opt), "data===", data);
       //write file in tmp system
-      cb(fetchProducts(data));
+      if(opt.postId) cb(product(data.entry));
+      else
+      cb(products(data));
       if (saveTmp)
         writeFileSync(
           `/tmp/${saveTmp}.json`,
-          JSON.stringify(fetchProducts(data))
+          JSON.stringify(products(data))
         );
       /*
       res.status(200).json({

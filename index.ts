@@ -19,7 +19,6 @@ const regexIno = (
   while ((match = pattern.exec(content))) {
     match = match[1].trim();
     matchArr.push(match);
-    console.log(match);
   }
   return matchArr;
 };
@@ -50,7 +49,7 @@ function fetchProducts(dataPosts: any = []) {
       media$thumbnail, //: thumbnail,//{ url: thumbnail },
       published: { $t: published },
       updated: { $t: updated },
-      title: { $t: title },
+      title: { $t: name },
       category,
       link,
     }: any) => {
@@ -61,7 +60,8 @@ function fetchProducts(dataPosts: any = []) {
       const content = _content.replace(/(<([^>]+)>)/gi, "");
       function getVar(variable: any, _type: string = "string"): any {
         let _res: any =
-          regexIno(content, new RegExp(`${variable}*:(.*?);`, "g")) || [];
+          regexIno(content, new RegExp(`${variable}*=(.*?);`, "g")) || [];
+        console.log({ _res });
 
         if (_type === "full") return _res;
         let res = _res[0];
@@ -73,7 +73,14 @@ function fetchProducts(dataPosts: any = []) {
         return res;
       }
       //const price = regexIno(_content, regexs.dictionary);
-      const price = getVar("price", "number");
+      const discount = getVar("discount", "number");
+      const quantityAvailable = getVar("quantityAvailable", "number");
+      const currentPrice = getVar("currentPrice ", "number");
+
+      const sizes = getVar("sizes ", "array");
+      const colors = getVar("colors ", "array");
+
+      ///
 
       const categories = category?.map((cat: any) => cat.term);
       const thumbnail = media$thumbnail?.url;
@@ -81,14 +88,18 @@ function fetchProducts(dataPosts: any = []) {
 
       return {
         id,
-        title,
+        name,
         thumbnail,
         published,
         link,
         images,
         content,
         categories,
-        price,
+        discount,
+        quantityAvailable,
+        currentPrice,
+        sizes,
+        colors,
         updated,
       };
     }

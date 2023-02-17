@@ -2,15 +2,18 @@
 //import type { NextApiRequest, NextApiResponse } from "next";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 
-
-const regexs = {
-  https: /https(.*?)"/g,
-  dictionary: /{(.*?)}/g,
-  tuple: /((.*?))/g,
-  array: /[(.*?)]/g,
-  src: / src(.*?)" /g,
+const regexs: any = {
+  https: 'https(.*?)"',
+  dictionary: "{(.*?)}",
+  tuple: "((.*?))",
+  array: "[(.*?)]",
+  src: ' src=(.*?)" ',
+  custom: (_r: any) => _r,
 };
-const regexIno = (content: string, pattern = regexs.dictionary) => {
+const regexIno = (
+  content: string,
+  pattern = new RegExp(regexs.dictionary, "g")
+) => {
   let match;
   const matchArr = [];
   while ((match = pattern.exec(content))) {
@@ -27,7 +30,7 @@ const regexIno = (content: string, pattern = regexs.dictionary) => {
 //get all post each categories
 const linkJsonAllPostsCategorie = (categorie: any) =>
   `https://www.blogger.com/feeds/${process.env.ID_GOOGLE_BLOG}/posts/default${
-    categorie ? "/-/" + categorie : ""
+    categorie ? `/-/${categorie}` : ""
   }/?alt=json`;
 // `${process.env.LINK_GOOGLE_BLOGGER}feeds/posts/default/-/${categorie}?alt=json`;
 
@@ -38,8 +41,9 @@ const linkJsonAllPostsCategorie = (categorie: any) =>
 //const content = dataPosts.feed.entry[0].content.$t;
 
 //fet lllop
-const fetchProducts = (dataPosts: any = []) =>
-  dataPosts.feed?.entry?.map(
+
+function fetchProducts(dataPosts: any = []) {
+  return dataPosts.feed?.entry?.map(
     ({
       id: { $t: id },
       content: { $t: _content },
@@ -50,18 +54,29 @@ const fetchProducts = (dataPosts: any = []) =>
       category,
       link,
     }: any) => {
-      const image = regexIno(_content, regexs.src); //_regexImg(_content);
+      const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
+        (img: string = "") => img.split('"')[1]
+      ); //_regexImg(_content);
+
       const content = _content.replace(/(<([^>]+)>)/gi, "");
-      const price = regexIno(_content, regexs.dictionary);
+      function getVar(variable: any): any {
+        return (
+          regexIno(content, new RegExp(`${variable}*:(.*?);`, "g"))[0] || 0
+        );
+      }
+      //const price = regexIno(_content, regexs.dictionary);
+      const price = parseInt(getVar("price"));
+
       const categories = category?.map((cat: any) => cat.term);
       const thumbnail = media$thumbnail?.url;
+
       return {
         id,
         title,
         thumbnail,
         published,
         link,
-        image,
+        images,
         content,
         categories,
         price,
@@ -69,33 +84,36 @@ const fetchProducts = (dataPosts: any = []) =>
       };
     }
   );
+}
 ///
-const useBlogger = (cb: any) => {
-  const file = "test";
-  if (existsSync(`/tmp/${file}.json`)) {
-   // console.log("===exist :)");
-    const textData:any = readFileSync(`/tmp/${file}.json`);
-
+function useBlogger(cb: any, saveTmp = null) {
+  // const saveTmp ="test";
+  if (saveTmp && existsSync(`/tmp/${saveTmp}.json`)) {
+    // console.log("===exist :)");
+    const textData: any = readFileSync(`/tmp/${saveTmp}.json`);
     cb(JSON.parse(textData));
     return;
   }
   //
   //console.log("===no file exist :(");
-
   fetch(linkJsonAllPostsCategorie(null))
     .then((response) => response.json())
     .then((data) => {
       //write file in tmp system
-      writeFileSync(`/tmp/${file}.json`, JSON.stringify(data));
+      cb(fetchProducts(data));
+      if (saveTmp)
+        writeFileSync(
+          `/tmp/${saveTmp}.json`,
+          JSON.stringify(fetchProducts(data))
+        );
       /*
       res.status(200).json({
         file,
         data,
       });
 */
-      cb(fetchProducts(data));
     });
-};
+}
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/
 

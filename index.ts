@@ -61,8 +61,8 @@ function fetchProducts(dataPosts: any = []) {
       function getVar(variable: any, _type: string = "string"): any {
         let _res: any =
           regexIno(content, new RegExp(`${variable}*=(.*?);`, "g")) || [];
-        console.log({ _res });
-
+          
+       
         if (_type === "full") return _res;
         let res = _res[0];
         if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;

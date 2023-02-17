@@ -72,7 +72,7 @@ function fetchProducts(dataPosts: any = []) {
 
         return res;
       }
-      //const price = regexIno(_content, regexs.dictionary);
+      const price = getVar("price", "number");
       const discount = getVar("discount", "number");
       const quantityAvailable = getVar("quantityAvailable", "number");
       const currentPrice = getVar("currentPrice ", "number");
@@ -95,6 +95,7 @@ function fetchProducts(dataPosts: any = []) {
         images,
         content,
         categories,
+        price,
         discount,
         quantityAvailable,
         currentPrice,

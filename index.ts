@@ -59,18 +59,26 @@ function fetchProducts(dataPosts: any = []) {
       ); //_regexImg(_content);
 
       const content = _content.replace(/(<([^>]+)>)/gi, "");
-      function getVar(variable: any): any {
-        return (
-          regexIno(content, new RegExp(`${variable}*:(.*?);`, "g"))[0] || 0
-        );
+      function getVar(variable: any, _type: string = "string"): any {
+        let _res: any =
+          regexIno(content, new RegExp(`${variable}*:(.*?);`, "g")) || [];
+
+        if (_type === "full") return _res;
+        let res = _res[0];
+        if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;
+        if (_type === "array") {
+          res = res?.split(",");
+        }
+
+        return res;
       }
       //const price = regexIno(_content, regexs.dictionary);
-      const price = parseInt(getVar("price"));
+      const price = getVar("price", "number");
 
       const categories = category?.map((cat: any) => cat.term);
       const thumbnail = media$thumbnail?.url;
       const id = _id.split("post-")[1];
-      
+
       return {
         id,
         title,

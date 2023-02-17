@@ -82,7 +82,7 @@ function fetchProducts(dataPosts: any = []) {
 
       ///
 
-      const categories = category?.map((cat: any) => cat.term);
+      const categories = category?.map((cat: any) => cat.term) || [];
       const thumbnail = media$thumbnail?.url;
       const id = _id.split("post-")[1];
 
@@ -95,6 +95,7 @@ function fetchProducts(dataPosts: any = []) {
         images,
         content,
         categories,
+        category:categories[0],
         price,
         discount,
         quantityAvailable,

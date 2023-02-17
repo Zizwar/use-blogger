@@ -45,7 +45,7 @@ const linkJsonAllPostsCategorie = (categorie: any) =>
 function fetchProducts(dataPosts: any = []) {
   return dataPosts.feed?.entry?.map(
     ({
-      id: { $t: id },
+      id: { $t: _id },
       content: { $t: _content },
       media$thumbnail, //: thumbnail,//{ url: thumbnail },
       published: { $t: published },
@@ -69,7 +69,8 @@ function fetchProducts(dataPosts: any = []) {
 
       const categories = category?.map((cat: any) => cat.term);
       const thumbnail = media$thumbnail?.url;
-
+      const id = _id.split("post-")[1];
+      
       return {
         id,
         title,

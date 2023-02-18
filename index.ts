@@ -41,6 +41,7 @@ const linkJsonAllPostsCategorie = ({ category, postId = "" }: any) =>
 //const id = dataPosts.feed.entry[0].id.$t;
 //const content = dataPosts.feed.entry[0].content.$t;
 
+
 //fet lllop
 const product =
   ({
@@ -71,6 +72,7 @@ const product =
 
       return res;
     }
+    
     const price = getVar("price", "number");
     const discount = getVar("discount", "number");
     const quantityAvailable = getVar("quantityAvailable", "number");

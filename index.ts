@@ -8,8 +8,8 @@ const regexs: any = {
   tuple: "((.*?))",
   array: "[(.*?)]",
   src: ' src="(.*?)" ',
-  video: "<iframe*(.*?) src='*(.*?) ",
-  custom: (_r: any) => _r,
+  video: "<iframe*(.*?) src='*(.*?)' ",
+  custom: (_r: string) => _r,
 };
 const regexIno = (
   content: string,
@@ -26,24 +26,25 @@ const regexIno = (
 //
 //all categories
 //const categories = data?.feed?.category?.map((cat) => cat.term);
-
+const { ID_GOOGLE_BLOG, URL_GOOGLE_BLOG } = process.env;
 //get all post each categories
-const linkJsonAllPostsCategorie = ({ category, postId = "" }: any) =>
+const urlJsonAllPostsCategorie = ({ category, postId = "" }: any) =>
   postId
-    ? `https://www.blogger.com/feeds/${process.env.ID_GOOGLE_BLOG}/posts/default/${postId}?alt=json`
-    : `https://www.blogger.com/feeds/${
-        process.env.ID_GOOGLE_BLOG
-      }/posts/default${category ? `/-/${category}` : ""}?alt=json`;
-// `${process.env.LINK_GOOGLE_BLOGGER}feeds/posts/default/-/${categorie}?alt=json`;
+    ? `${
+        URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
+      }/feeds/posts/default/${postId}?alt=json`
+    : `${
+        URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
+      }/feeds/posts/default${category ? `/-/${category}` : ""}?alt=json`;
 
-//foreach categories linkJsonAllPostsCategorie
+//foreach categories urlJsonAllPostsCategorie
 
 //get each id
 //const id = dataPosts.feed.entry[0].id.$t;
 //const content = dataPosts.feed.entry[0].content.$t;
 
 //fet lllop
-const product = ({
+function Product({
   id: { $t: _id },
   content: { $t: _content },
   media$thumbnail, //: thumbnail,//{ url: thumbnail },
@@ -52,12 +53,20 @@ const product = ({
   title: { $t: name },
   category,
   link,
-}: any) => {
+}: any) {
+  //get videos array
+  //const _videos: any = new RegExp("<iframe*(.*?) src='*(.*?)' ", "g").exec(_content) || [];
+  const _videos: any = new RegExp(regexs.video, "g").exec(_content) || [];
+//  const videos = regexIno(_content, new RegExp(regexs.video, "g")).map(
+  //  (video: string = "") => video //.split('"')[1]
+  //); //_regexImg(_content);
+  const videos = _videos[2] || [];
+  console.log("=====" + videos);
+
+
+  //get image
   const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
     (img: string = "") => img //.split('"')[1]
-  ); //_regexImg(_content);
-  const videos = regexIno(_content, new RegExp(regexs.video, "g")).map(
-    (viddeo: string = "") => viddeo[1] //img.split('"')[1]
   ); //_regexImg(_content);
 
   const content = _content.replace(/(<([^>]+)>)/gi, "");
@@ -68,9 +77,7 @@ const product = ({
     if (_type === "full") return _res;
     let res = _res[0];
     if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;
-    if (_type === "array") {
-      res = res?.split(",");
-    }
+    if (_type === "array") return res?.split(",");
 
     return res;
   }
@@ -84,7 +91,6 @@ const product = ({
   const colors = getVar("colors ", "array");
 
   ///
-
   const categories = category?.map((cat: any) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
   const id = _id.split("post-")[1];
@@ -98,6 +104,7 @@ const product = ({
     link,
     images,
     content,
+    contentHTML: _content,
     categories,
     category: categories[0],
     price,
@@ -108,33 +115,32 @@ const product = ({
     colors,
     updated,
   };
-};
+}
 
-function products(dataPosts: any = []) {
-  return dataPosts.feed?.entry?.map(product);
+function Products(dataPosts: any = []) {
+  return dataPosts.feed?.entry?.map(Product);
 }
 ///
-async function useBlogger(opt: any = []): any {
-  new Promise((resolve, _reject) => {
+function useBlogger(cb: any, opt: any = []) {
   // const saveTmp ="test";
   const { saveTmp } = opt;
   if (saveTmp && existsSync(`/tmp/${saveTmp}.json`)) {
     console.log("===exist :)");
     const textData: any = readFileSync(`/tmp/${saveTmp}.json`);
-    resolve(JSON.parse(textData));
+    cb(JSON.parse(textData));
     return;
   }
   //
   //console.log("===no file exist :(");
-  fetch(linkJsonAllPostsCategorie(opt))
+  fetch(urlJsonAllPostsCategorie(opt))
     .then((response) => response.json())
     .then((data) => {
-      // console.log("opt=", linkJsonAllPostsCategorie(opt), "data===", data);
+      // console.log("opt=", urlJsonAllPostsCategorie(opt), "data===", data);
       //write file in tmp system
-      if (opt.postId) resolve(product(data.entry));
-      else resolve(products(data));
+      if (opt.postId) cb(Product(data.entry));
+      else cb(Products(data));
       if (saveTmp)
-        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(products(data)));
+        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
       /*
       res.status(200).json({
         file,
@@ -142,7 +148,6 @@ async function useBlogger(opt: any = []): any {
       });
 */
     });
-  })
 }
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/

@@ -60,7 +60,7 @@ function Product({
 //  const videos = regexIno(_content, new RegExp(regexs.video, "g")).map(
   //  (video: string = "") => video //.split('"')[1]
   //); //_regexImg(_content);
-  const videos = _videos[2] || [];
+  const videos = _videos[2] || "";
   console.log("=====" + videos);
 
 

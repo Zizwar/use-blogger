@@ -57,12 +57,11 @@ function Product({
   //get videos array
   //const _videos: any = new RegExp("<iframe*(.*?) src='*(.*?)' ", "g").exec(_content) || [];
   const _videos: any = new RegExp(regexs.video, "g").exec(_content) || [];
-//  const videos = regexIno(_content, new RegExp(regexs.video, "g")).map(
+  //  const videos = regexIno(_content, new RegExp(regexs.video, "g")).map(
   //  (video: string = "") => video //.split('"')[1]
   //); //_regexImg(_content);
   const videos = _videos[2] || "";
   console.log("=====" + videos);
-
 
   //get image
   const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
@@ -118,21 +117,37 @@ function Product({
 }
 
 function Products(dataPosts: any = []) {
+  //console.log("====dataPosts",dataPosts);
   return dataPosts.feed?.entry?.map(Product);
 }
 ///
-function useBlogger(cb: any, opt: any = []) {
+async function useBlogger(opt: any = []) {
   // const saveTmp ="test";
   const { saveTmp } = opt;
   if (saveTmp && existsSync(`/tmp/${saveTmp}.json`)) {
     console.log("===exist :)");
     const textData: any = readFileSync(`/tmp/${saveTmp}.json`);
-    cb(JSON.parse(textData));
-    return;
+    return JSON.parse(textData);
+    
   }
   //
-  //console.log("===no file exist :(");
-  fetch(urlJsonAllPostsCategorie(opt))
+  try {
+    const response = await fetch(urlJsonAllPostsCategorie(opt));
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    
+
+    if (saveTmp)
+      writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
+      return opt.postId ? Product(data.entry) : Products(data);
+  } catch (error) {
+    console.error("There was a problem with the fetch request:", error);
+  }
+}
+/* 
+  await fetch(urlJsonAllPostsCategorie(opt))
     .then((response) => response.json())
     .then((data) => {
       // console.log("opt=", urlJsonAllPostsCategorie(opt), "data===", data);
@@ -141,14 +156,14 @@ function useBlogger(cb: any, opt: any = []) {
       else cb(Products(data));
       if (saveTmp)
         writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
-      /*
       res.status(200).json({
         file,
         data,
       });
-*/
+/
     });
 }
+*/
 /*****************/
 //https://www.rodude.com/blogger-feed-rss-json/
 

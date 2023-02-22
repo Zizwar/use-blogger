@@ -1,2 +1,2 @@
-# query-google-blogger
-query google blogger
+# useBlogger
+use blogger

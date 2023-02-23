@@ -61,7 +61,7 @@ function Product({
   //  (video: string = "") => video //.split('"')[1]
   //); //_regexImg(_content);
   const videos = _videos[2] || "";
-  console.log("=====" + videos);
+  //console.log("=====" + videos);
 
   //get image
   const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
@@ -121,32 +121,47 @@ function Products(dataPosts: any = []) {
   return dataPosts.feed?.entry?.map(Product);
 }
 ///
-async function useBlogger(opt: any = []) {
-  // const saveTmp ="test";
-  const { saveTmp } = opt;
-  if (saveTmp && existsSync(`/tmp/${saveTmp}.json`)) {
-    console.log("===exist :)");
-    const textData: any = readFileSync(`/tmp/${saveTmp}.json`);
-    return JSON.parse(textData);
-    
+export default class UseBlogger {
+  blogId: string;
+  saveTmp: string;
+  isBrowser: boolean;
+  data: any;
+  constructor({ blogId, isBrowser = false, saveTmp }: any | undefined) {
+    this.blogId = blogId;
+    this.isBrowser = isBrowser;
+    this.saveTmp = saveTmp;
+    this.data = [];
+    //console.log("start qgb");
   }
-  //
-  try {
-    const response = await fetch(urlJsonAllPostsCategorie(opt));
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+  get regexs() {
+    return regexs;
+  }
+  async get(opt: any  | undefined) {
+    if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
+      console.log("===exist :)");
+      const textData: any = readFileSync(`/tmp/${this.saveTmp}.json`);
+      JSON.parse(textData);
+      return (this.data = JSON.parse(textData));
     }
-    const data = await response.json();
-    
+    //
+    try {
+      const response = await fetch(urlJsonAllPostsCategorie(opt));
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      this.data = await response.json();
 
-    if (saveTmp)
-      writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
-      return opt.postId ? Product(data.entry) : Products(data);
-  } catch (error) {
-    console.error("There was a problem with the fetch request:", error);
+      if (this.saveTmp)
+        writeFileSync(
+          `/tmp/${this.saveTmp}.json`,
+          JSON.stringify(Products(this.data))
+        );
+      return opt.postId ? Product(this.data?.entry) : Products(this.data);
+    } catch (error) {
+      console.error("There was a problem with the fetch request:", error);
+    }
   }
-}
-/* 
+  /* 
   await fetch(urlJsonAllPostsCategorie(opt))
     .then((response) => response.json())
     .then((data) => {
@@ -164,7 +179,6 @@ async function useBlogger(opt: any = []) {
     });
 }
 */
-/*****************/
-//https://www.rodude.com/blogger-feed-rss-json/
-
-export default useBlogger;
+  /*****************/
+  //https://www.rodude.com/blogger-feed-rss-json/
+}

@@ -28,15 +28,30 @@ const regexIno = (
 //const categories = data?.feed?.category?.map((cat) => cat.term);
 const { ID_GOOGLE_BLOG, URL_GOOGLE_BLOG } = process.env;
 //get all post each categories
-const urlJsonAllPostsCategorie = ({ category, postId = "" }: any) =>
-  postId
-    ? `${
-        URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
-      }/feeds/posts/default/${postId}?alt=json`
-    : `${
-        URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
-      }/feeds/posts/default${category ? `/-/${category}` : ""}?alt=json`;
+const urlJsonAllPostsCategorie = ({
+  category = "",
+  postId = "",
+  query = "",
+}: any) =>
+  `${
+    URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
+  }/feeds/posts/default/${postId}${
+    category ? `-/${category}` : ""
+  }?alt=json${query}`;
 
+/*
+      function urlJsonAllPostsCategorie({
+  category = "",
+  postId = "",
+  query = "",
+}: any): string {
+  return (
+    (URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG) +
+      "/feeds/posts/default/" +
+      postId +
+      category && `-/${category}` + "?alt=json&" + query
+  );
+}*/
 //foreach categories urlJsonAllPostsCategorie
 
 //get each id
@@ -53,7 +68,26 @@ function Product({
   title: { $t: name },
   category,
   link,
-}: any) {
+}: any): {
+  id: any;
+  name: any;
+  thumbnail: any;
+  published: any;
+  videos: any;
+  link: any;
+  images: string[];
+  content: any;
+  contentHTML: any;
+  categories: any;
+  category: any;
+  price: any;
+  discount: any;
+  quantityAvailable: any;
+  currentPrice: any;
+  sizes: any;
+  colors: any;
+  updated: any;
+} {
   //get videos array
   //const _videos: any = new RegExp("<iframe*(.*?) src='*(.*?)' ", "g").exec(_content) || [];
   const _videos: any = new RegExp(regexs.video, "g").exec(_content) || [];
@@ -71,7 +105,8 @@ function Product({
   const content = _content.replace(/(<([^>]+)>)/gi, "");
   function getVar(variable: any, _type: string = "string"): any {
     let _res: any =
-      regexIno(content, new RegExp(`${variable}*=(.*?);`, "g")) || [];
+      regexIno(_content, new RegExp(`${variable}*=(.*?)<`, "g")) || [];
+console.log({_res});
 
     if (_type === "full") return _res;
     let res = _res[0];
@@ -136,7 +171,7 @@ export default class UseBlogger {
   get regexs() {
     return regexs;
   }
-  async get(opt: any  | undefined) {
+  async get(opt: any | undefined) {
     if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
       console.log("===exist :)");
       const textData: any = readFileSync(`/tmp/${this.saveTmp}.json`);

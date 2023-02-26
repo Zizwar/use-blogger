@@ -102,11 +102,12 @@ function Product({
     (img: string = "") => img //.split('"')[1]
   ); //_regexImg(_content);
 
-  const content = _content.replace(/(<([^>]+)>)/gi, "");
+  const content = _content.replace(/(<([^>]+)>)|&nbsp;/gi, "");
+
   function getVar(variable: any, _type: string = "string"): any {
     let _res: any =
       regexIno(_content, new RegExp(`${variable}*=(.*?)<`, "g")) || [];
-console.log({_res});
+    console.log({ _res });
 
     if (_type === "full") return _res;
     let res = _res[0];
@@ -161,7 +162,8 @@ export default class UseBlogger {
   saveTmp: string;
   isBrowser: boolean;
   data: any;
-  constructor({ blogId, isBrowser = false, saveTmp }: any | undefined) {
+  constructor(props: any = []) {
+    const { blogId, isBrowser = false, saveTmp } = props;
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.saveTmp = saveTmp;
@@ -171,7 +173,8 @@ export default class UseBlogger {
   get regexs() {
     return regexs;
   }
-  async get(opt: any | undefined) {
+  getVars() {}
+  async get(opt: any = []) {
     if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
       console.log("===exist :)");
       const textData: any = readFileSync(`/tmp/${this.saveTmp}.json`);

@@ -18,7 +18,8 @@ const regexIno = (
   let match;
   const matchArr = [];
   while ((match = pattern.exec(content))) {
-    match = match[1].trim();
+    match = match[1]?.trim();
+    if(match)
     matchArr.push(match);
   }
   return matchArr;
@@ -88,6 +89,7 @@ function Product({
   colors: any;
   updated: any;
 } {
+  _content = _content.replace(/&nbsp;/gi, "");
   //get videos array
   //const _videos: any = new RegExp("<iframe*(.*?) src='*(.*?)' ", "g").exec(_content) || [];
   const _videos: any = new RegExp(regexs.video, "g").exec(_content) || [];
@@ -102,17 +104,17 @@ function Product({
     (img: string = "") => img //.split('"')[1]
   ); //_regexImg(_content);
 
-  const content = _content.replace(/(<([^>]+)>)|&nbsp;/gi, "");
+  const content = _content.replace(/(<([^>]+)>)/gi, "");
 
   function getVar(variable: any, _type: string = "string"): any {
     let _res: any =
-      regexIno(_content, new RegExp(`${variable}*=(.*?)<`, "g")) || [];
+      regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`,"g")) || [];
     console.log({ _res });
 
     if (_type === "full") return _res;
     let res = _res[0];
-    if (_type === "number") return res?.match(/\d+/g).map(Number)[0] || 0;
-    if (_type === "array") return res?.split(",");
+    if (_type === "number") return res?.match(/\d+(\.\d+)?/g)?.map((_r: any) => +_r)[0] || 0;
+    if (_type === "array") return res?.split(",")?.filter((_r: any) => _r!=="");
 
     return res;
   }

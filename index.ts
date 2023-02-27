@@ -1,6 +1,6 @@
 //console.log("2323");
 //import type { NextApiRequest, NextApiResponse } from "next";
-import { existsSync, readFileSync, writeFileSync } from "fs";
+//import { existsSync, readFileSync, writeFileSync } from "fs";
 
 const regexs: any = {
   https: 'https(.*?)"',
@@ -19,29 +19,30 @@ const regexIno = (
   const matchArr = [];
   while ((match = pattern.exec(content))) {
     match = match[1]?.trim();
-    if(match)
-    matchArr.push(match);
+    if (match) matchArr.push(match);
   }
   return matchArr;
 };
 //
 //all categories
 //const categories = data?.feed?.category?.map((cat) => cat.term);
-const { ID_GOOGLE_BLOG, URL_GOOGLE_BLOG } = process.env;
+
 //get all post each categories
-const urlJsonAllPostsCategorie = ({
+const urlJsonSearchPostsCategories = ({
   category = "",
   postId = "",
   query = "",
+  blogUrl = process.env?.URL_GOOGLE_BLOG,
+  blogId = process.env?.ID_GOOGLE_BLOG,
 }: any) =>
   `${
-    URL_GOOGLE_BLOG || "https://www.blogger.com/" + ID_GOOGLE_BLOG
+    blogUrl || "https://www.blogger.com/" + blogId
   }/feeds/posts/default/${postId}${
     category ? `-/${category}` : ""
   }?alt=json${query}`;
 
 /*
-      function urlJsonAllPostsCategorie({
+      function urlJsonSearchPostsCategories({
   category = "",
   postId = "",
   query = "",
@@ -53,13 +54,112 @@ const urlJsonAllPostsCategorie = ({
       category && `-/${category}` + "?alt=json&" + query
   );
 }*/
-//foreach categories urlJsonAllPostsCategorie
+//foreach categories urlJsonSearchPostsCategories
 
 //get each id
 //const id = dataPosts.feed.entry[0].id.$t;
 //const content = dataPosts.feed.entry[0].content.$t;
 
 //fet lllop
+
+///
+export default class UseBlogger {
+  blogId: string;
+  saveTmp: string;
+  isBrowser: boolean;
+  data: any = [];
+  category: string = "";
+  blogUrl: string;
+  postId: string = "";
+  query: string = "";
+  textSearch: string | undefined;
+
+  constructor(props: any = []) {
+    const { blogId, isBrowser, saveTmp, blogUrl } = props;
+    this.blogId = blogId;
+    this.isBrowser = isBrowser;
+    this.saveTmp = saveTmp;
+    this.blogUrl = blogUrl;
+
+    //console.log("start qgb");
+  }
+  get regexs() {
+    return regexs;
+  }
+  categories(cats: string[]) {
+    this.category = cats?.join("/") || "";
+    return this;
+  }
+  post(postId: string) {
+    this.postId = postId;
+    return this;
+  }
+  search(q: string) {
+    this.textSearch = q;
+    return this;
+  }
+  getVars() {}
+  async load() {
+    /*
+    if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
+      console.log("===exist :)");
+      const textData: any = readFileSync(`/tmp/${this.saveTmp}.json`);
+      JSON.parse(textData);
+      return (this.data = JSON.parse(textData));
+    }
+    */
+    //
+
+    try {
+      const { category, postId, query, blogUrl, blogId, textSearch } = this;
+
+      const response = await fetch(
+        urlJsonSearchPostsCategories({
+          category,
+          postId,
+          query,
+          blogUrl,
+          blogId,
+          textSearch,
+        })
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      this.data = await response.json();
+      /*
+      if (this.saveTmp)
+        writeFileSync(
+          `/tmp/${this.saveTmp}.json`,
+          JSON.stringify(Products(this.data))
+        );
+        */
+      return this.postId ? Product(this.data?.entry) : Products(this.data);
+    } catch (error) {
+      console.error("There was a problem with the fetch request:", error);
+    }
+  }
+  /* 
+  await fetch(urlJsonSearchPostsCategories(opt))
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log("opt=", urlJsonSearchPostsCategories(opt), "data===", data);
+      //write file in tmp system
+      if (opt.postId) cb(Product(data.entry));
+      else cb(Products(data));
+      if (saveTmp)
+        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
+      res.status(200).json({
+        file,
+        data,
+      });
+/
+    });
+}
+*/
+  /*****************/
+  //https://www.rodude.com/blogger-feed-rss-json/
+}
 function Product({
   id: { $t: _id },
   content: { $t: _content },
@@ -108,13 +208,15 @@ function Product({
 
   function getVar(variable: any, _type: string = "string"): any {
     let _res: any =
-      regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`,"g")) || [];
+      regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`, "g")) || [];
     console.log({ _res });
 
     if (_type === "full") return _res;
     let res = _res[0];
-    if (_type === "number") return res?.match(/\d+(\.\d+)?/g)?.map((_r: any) => +_r)[0] || 0;
-    if (_type === "array") return res?.split(",")?.filter((_r: any) => _r!=="");
+    if (_type === "number")
+      return res?.match(/\d+(\.\d+)?/g)?.map((_r: any) => +_r)[0] || 0;
+    if (_type === "array")
+      return res?.split(",")?.filter((_r: any) => _r !== "");
 
     return res;
   }
@@ -157,68 +259,4 @@ function Product({
 function Products(dataPosts: any = []) {
   //console.log("====dataPosts",dataPosts);
   return dataPosts.feed?.entry?.map(Product);
-}
-///
-export default class UseBlogger {
-  blogId: string;
-  saveTmp: string;
-  isBrowser: boolean;
-  data: any;
-  constructor(props: any = []) {
-    const { blogId, isBrowser = false, saveTmp } = props;
-    this.blogId = blogId;
-    this.isBrowser = isBrowser;
-    this.saveTmp = saveTmp;
-    this.data = [];
-    //console.log("start qgb");
-  }
-  get regexs() {
-    return regexs;
-  }
-  getVars() {}
-  async get(opt: any = []) {
-    if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
-      console.log("===exist :)");
-      const textData: any = readFileSync(`/tmp/${this.saveTmp}.json`);
-      JSON.parse(textData);
-      return (this.data = JSON.parse(textData));
-    }
-    //
-    try {
-      const response = await fetch(urlJsonAllPostsCategorie(opt));
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      this.data = await response.json();
-
-      if (this.saveTmp)
-        writeFileSync(
-          `/tmp/${this.saveTmp}.json`,
-          JSON.stringify(Products(this.data))
-        );
-      return opt.postId ? Product(this.data?.entry) : Products(this.data);
-    } catch (error) {
-      console.error("There was a problem with the fetch request:", error);
-    }
-  }
-  /* 
-  await fetch(urlJsonAllPostsCategorie(opt))
-    .then((response) => response.json())
-    .then((data) => {
-      // console.log("opt=", urlJsonAllPostsCategorie(opt), "data===", data);
-      //write file in tmp system
-      if (opt.postId) cb(Product(data.entry));
-      else cb(Products(data));
-      if (saveTmp)
-        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
-      res.status(200).json({
-        file,
-        data,
-      });
-/
-    });
-}
-*/
-  /*****************/
-  //https://www.rodude.com/blogger-feed-rss-json/
 }

@@ -15,8 +15,8 @@ const regexIno = (
   content: string,
   pattern = new RegExp(regexs.dictionary, "g")
 ) => {
-  let match;
-  const matchArr = [];
+  let match: any;
+  const matchArr: any[] = [];
   while ((match = pattern.exec(content))) {
     match = match[1]?.trim();
     if (match) matchArr.push(match);
@@ -32,8 +32,8 @@ const urlJsonSearchPostsCategories = ({
   category = "",
   postId = "",
   query = "",
-  blogUrl = process.env?.URL_GOOGLE_BLOG,
-  blogId = process.env?.ID_GOOGLE_BLOG,
+  blogUrl = "", //process.env?.URL_GOOGLE_BLOG,
+  blogId = "", //process.env?.ID_GOOGLE_BLOG,
 }: any) =>
   `${
     blogUrl || "https://www.blogger.com/" + blogId

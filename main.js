@@ -8,7 +8,7 @@ const URL_BLOGGER_BROWSER = ({ blogId, categorie, callback }) =>
     categorie ? "/-/" + categorie : ""
   }/?${callback ? "callback=" + callback : ""}&alt=json`;
 
-export default class QueryGBlogger {
+export default class WinoBlogger {
   constructor({ blogId, isBrowser }) {
     this.blogId = blogId;
     this.isBrowser = isBrowser;

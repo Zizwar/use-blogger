@@ -25,7 +25,8 @@
     "url": "https://github.com/Zizwar/wino-blogger/issues"
   },
   "homepage": "https://github.com/Zizwar/wino-blogger#readme",
-  "dependencies": {
-    "wino-blogger": "^0.7.1"
+
+  "devDependencies": {
+    "@types/node": "^18.14.2"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "wino-blogger",
-  "version": "1.0.0",
+  "version": "0.7.1",
   "description": "query google blogger",
   "main": "main.js",
   "scripts": {
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/Zizwar/wino-blogger/issues"
   },
-  "homepage": "https://github.com/Zizwar/wino-blogger#readme"
+  "homepage": "https://github.com/Zizwar/wino-blogger#readme",
+  "dependencies": {
+    "wino-blogger": "^0.7.1"
+  }
 }

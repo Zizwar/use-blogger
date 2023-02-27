@@ -1,6 +1,6 @@
 {
-  "name": "query-google-blogger",
-  "version": "1.0.0",
+  "name": "wino-blogger",
+  "version": "0.7.1",
   "description": "query google blogger",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zizwar/query-google-blogger.git"
+    "url": "git+https://github.com/Zizwar/wino-blogger.git"
   },
   "keywords": [
     "query",
@@ -22,9 +22,9 @@
   "author": "brahim bidi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Zizwar/query-google-blogger/issues"
+    "url": "https://github.com/Zizwar/wino-blogger/issues"
   },
-  "homepage": "https://github.com/Zizwar/query-google-blogger#readme",
+  "homepage": "https://github.com/Zizwar/wino-blogger#readme",
   "devDependencies": {
     "@types/node": "^18.14.2"
   }

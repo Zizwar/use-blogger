@@ -63,7 +63,7 @@ const urlJsonSearchPostsCategories = ({
 //fet lllop
 
 ///
-export default class UseBlogger {
+export default class WinoBlogger {
   blogId: string;
   saveTmp: string;
   isBrowser: boolean;

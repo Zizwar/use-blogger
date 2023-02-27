@@ -1,2 +1,2 @@
-# useBlogger
-use blogger
+# winoBlogger
+winoBlogger

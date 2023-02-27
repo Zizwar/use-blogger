@@ -73,7 +73,7 @@ export default class UseBlogger {
   postId: string = "";
   query: string = "";
   textSearch: string | undefined;
-
+  variables: any;
   constructor(props: any = []) {
     const { blogId, isBrowser, saveTmp, blogUrl } = props;
     this.blogId = blogId;
@@ -98,8 +98,9 @@ export default class UseBlogger {
     this.textSearch = q;
     return this;
   }
-  getVars() {}
-  async load() {
+
+  async load(variables: any) {
+    //console.log("=====+++B" + variables);
     /*
     if (this.saveTmp && existsSync(`/tmp/${this.saveTmp}.json`)) {
       console.log("===exist :)");
@@ -131,13 +132,19 @@ export default class UseBlogger {
       if (this.saveTmp)
         writeFileSync(
           `/tmp/${this.saveTmp}.json`,
-          JSON.stringify(Products(this.data))
+          JSON.stringify(getPosts(this.data))
         );
         */
-      return this.postId ? Product(this.data?.entry) : Products(this.data);
+      return this.postId
+        ? getPost(this.data?.entry, variables)
+        : getPosts(this.data, variables);
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);
     }
+  }
+  //clone load
+  async exec(variables: any) {
+    return await this.load(variables);
   }
   /* 
   await fetch(urlJsonSearchPostsCategories(opt))
@@ -145,10 +152,10 @@ export default class UseBlogger {
     .then((data) => {
       // console.log("opt=", urlJsonSearchPostsCategories(opt), "data===", data);
       //write file in tmp system
-      if (opt.postId) cb(Product(data.entry));
-      else cb(Products(data));
+      if (opt.postId) cb(getPost(data.entry));
+      else cb(getPosts(data));
       if (saveTmp)
-        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(Products(data)));
+        writeFileSync(`/tmp/${saveTmp}.json`, JSON.stringify(getPosts(data)));
       res.status(200).json({
         file,
         data,
@@ -160,35 +167,19 @@ export default class UseBlogger {
   /*****************/
   //https://www.rodude.com/blogger-feed-rss-json/
 }
-function Product({
-  id: { $t: _id },
-  content: { $t: _content },
-  media$thumbnail, //: thumbnail,//{ url: thumbnail },
-  published: { $t: published },
-  updated: { $t: updated },
-  title: { $t: name },
-  category,
-  link,
-}: any): {
-  id: any;
-  name: any;
-  thumbnail: any;
-  published: any;
-  videos: any;
-  link: any;
-  images: string[];
-  content: any;
-  contentHTML: any;
-  categories: any;
-  category: any;
-  price: any;
-  discount: any;
-  quantityAvailable: any;
-  currentPrice: any;
-  sizes: any;
-  colors: any;
-  updated: any;
-} {
+function getPost(
+  {
+    id: { $t: _id },
+    content: { $t: _content },
+    media$thumbnail, //: thumbnail,//{ url: thumbnail },
+    published: { $t: published },
+    updated: { $t: updated },
+    title: { $t: name },
+    category,
+    link,
+  }: any,
+  variables: any = []
+): any {
   _content = _content.replace(/&nbsp;/gi, "");
   //get videos array
   //const _videos: any = new RegExp("<iframe*(.*?) src='*(.*?)' ", "g").exec(_content) || [];
@@ -197,7 +188,7 @@ function Product({
   //  (video: string = "") => video //.split('"')[1]
   //); //_regexImg(_content);
   const videos = _videos[2] || "";
-  //console.log("=====" + videos);
+  console.log("=====+++V" + variables);
 
   //get image
   const images = regexIno(_content, new RegExp(regexs.src, "g")).map(
@@ -206,28 +197,27 @@ function Product({
 
   const content = _content.replace(/(<([^>]+)>)/gi, "");
 
-  function getVar(variable: any, _type: string = "string"): any {
+  function getVar(variable: any, value: string = "string"): any {
     let _res: any =
       regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`, "g")) || [];
     console.log({ _res });
 
-    if (_type === "full") return _res;
+    if (value === "full") return _res;
     let res = _res[0];
-    if (_type === "number")
+    if (value === "number")
       return res?.match(/\d+(\.\d+)?/g)?.map((_r: any) => +_r)[0] || 0;
-    if (_type === "array")
+    if (value === "array")
       return res?.split(",")?.filter((_r: any) => _r !== "");
 
     return res;
   }
-
-  const price = getVar("price", "number");
-  const discount = getVar("discount", "number");
-  const quantityAvailable = getVar("quantityAvailable", "number");
-  const currentPrice = getVar("currentPrice ", "number");
-
-  const sizes = getVar("sizes ", "array");
-  const colors = getVar("colors ", "array");
+  //console.log({ variables });
+  const vars: any = [];
+  variables &&
+    Object.entries(variables).forEach(([key, value]: any) => {
+      vars[key] = getVar(key, value);
+      console.log(`${key}: ${value}`);
+    });
 
   ///
   const categories = category?.map((cat: any) => cat.term) || [];
@@ -246,17 +236,13 @@ function Product({
     contentHTML: _content,
     categories,
     category: categories[0],
-    price,
-    discount,
-    quantityAvailable,
-    currentPrice,
-    sizes,
-    colors,
     updated,
+    ...vars,
   };
 }
 
-function Products(dataPosts: any = []) {
+function getPosts(dataPosts: any = [], variables: any) {
   //console.log("====dataPosts",dataPosts);
-  return dataPosts.feed?.entry?.map(Product);
+  //console.log({ variables });
+  return dataPosts.feed?.entry?.map((entry: any) => getPost(entry, variables));
 }

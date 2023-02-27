@@ -15,10 +15,12 @@ const regexIno = (
   content: string,
   pattern = new RegExp(regexs.dictionary, "g")
 ) => {
-  let match:any;
-  const matchArr:any = [];
+
+  let match: any;
+  const matchArr: any[] = [];
   while ((match = pattern.exec(content))) {
-    match = match[1]?.trim() || null
+    match = match[1]?.trim();
+
     if (match) matchArr.push(match);
   }
   return matchArr;
@@ -32,8 +34,10 @@ const urlJsonSearchPostsCategories = ({
   category = "",
   postId = "",
   query = "",
+
   blogUrl,// = process.env?.URL_GOOGLE_BLOG,
   blogId, //= process.env?.ID_GOOGLE_BLOG,
+
 }: any) =>
   `${
     blogUrl || "https://www.blogger.com/" + blogId
@@ -63,7 +67,9 @@ const urlJsonSearchPostsCategories = ({
 //fet lllop
 
 ///
+
 export default class WinoBlogger {
+
   blogId: string;
   saveTmp: string;
   isBrowser: boolean;

@@ -1,3 +1,4 @@
+//deno land
 export const regexs = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
@@ -23,13 +24,11 @@ export const urlJsonSearchPostsCategories = ({
   category = "",
   postId = "",
   query = "",
-  blogUrl = process?.env?.URL_GOOGLE_BLOG,
-  blogId = process?.env?.ID_GOOGLE_BLOG,
+  blogUrl,
+  blogId,
 }) =>
-  `${
-    blogUrl || "https://www.blogger.com/" + blogId
-  }/feeds/posts/default/${postId}${
-    category ? `-/${category}` : ""
+  `${blogUrl || "https://www.blogger.com/" + blogId
+  }/feeds/posts/default/${postId}${category ? `-/${category}` : ""
   }?alt=json&${query}`;
 
 //fet lllop

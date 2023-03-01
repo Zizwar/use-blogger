@@ -10,9 +10,9 @@
   </head>
   <body>
     <script type="module">
-      import QueryGBlogger from "./main.js";
+      import winoBlogger from "./vanilla.js";
 
-      const qgb = new QueryGBlogger({
+      const wb = new winoBlogger({
         blogId: "8277077996046083588",
         isBrowser: true,
       });
@@ -27,7 +27,7 @@
       const onload = () => {
         console.log("load script feed :)");
       };
-      qgb.load({ callback, onerror, onload });
+      wb.load({ callback, onerror, onload });
     </script>
   </body>
 </html>

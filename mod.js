@@ -40,7 +40,7 @@ export default class UseBlogger {
   blogId; //if blogId not req blogeUrl
   saveTmp;
   isBrowser;
-  data = [];
+  data;
   category = "";
 
   postId = "";
@@ -87,6 +87,18 @@ export default class UseBlogger {
     this.query += `orderby=${value}&`;
     return this;
   }
+  //
+  callback(cb) {
+    this.callback = cb;
+    return this;
+  }
+  setData(data) {
+    this.data = data;
+    return this;
+  }
+  getData() {
+    return this.data;
+  }
 
   published(dateMin, dateMax) {
     if (dateMin) this.query += `published-min=${dateMin}&`;
@@ -101,21 +113,21 @@ export default class UseBlogger {
   async load(variables) {
     try {
       const { category, postId, query, blogUrl, blogId } = this;
-
-      const response = await fetch(
-        urlJsonSearchPostsCategories({
-          category,
-          postId,
-          query,
-          blogUrl,
-          blogId,
-        })
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      if (!this.data) {
+        const response = await fetch(
+          urlJsonSearchPostsCategories({
+            category,
+            postId,
+            query,
+            blogUrl,
+            blogId,
+          })
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        this.data = await response.json();
       }
-      this.data = await response.json();
-
       return this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
@@ -183,7 +195,7 @@ function getPost(
   variables &&
     Object.entries(variables).forEach(([key, value]) => {
       vars[key] = getVar(key, value);
-      console.log(`${key}: ${value}`);
+      //  console.log(`${key}: ${value}`);
     });
 
   ///
@@ -207,6 +219,18 @@ function getPost(
     ...vars,
   };
 }
+
 function getPosts(dataPosts = [], variables) {
-  return dataPosts.feed?.entry?.map((entry) => getPost(entry, variables));
+  const posts = [];
+  dataPosts.feed?.entry?.forEach((entry) => {
+    const post = getPost(entry, variables);
+    if (post) {
+      posts.push(post);
+    }
+  });
+  return posts;
 }
+/*
+function getPosts(dataPosts = [], variables) {
+ return dataPosts.feed?.entry?.map((entry) => getPost(entry, variables));
+}*/

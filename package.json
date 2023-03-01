@@ -2,7 +2,7 @@
   "name": "wino-blogger",
   "version": "0.7.1",
   "description": "query google blogger",
-  "main": "main.js",
+  "main": "mod.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

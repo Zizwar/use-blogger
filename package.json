@@ -15,7 +15,8 @@
     "query",
     "blogger",
     "deno",
-    "json","javascript",
+    "json",
+    "javascript",
     "google",
     "api",
     "cms",
@@ -26,7 +27,5 @@
   "bugs": {
     "url": "https://github.com/Zizwar/wino-blogger/issues"
   },
-  "homepage": "https://github.com/Zizwar/wino-blogger#readme",
-
-
+  "homepage": "https://github.com/Zizwar/wino-blogger#readme"
 }

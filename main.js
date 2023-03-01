@@ -180,7 +180,7 @@ function getPost(
   function getVar(variable, value = "string") {
     let _res =
       regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`, "g")) || [];
-    console.log({ _res });
+    //console.log({ _res });
 
     if (value === "full") return _res;
     let res = _res[0];

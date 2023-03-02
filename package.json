@@ -1,6 +1,6 @@
 {
   "name": "wino-blogger",
-  "version": "0.7.7",
+  "version": "0.7.9",
   "description": "query variable json api google blogger withoot token",
   "main": "main.js",
   "scripts": {

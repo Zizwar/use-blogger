@@ -1,6 +1,6 @@
 {
   "name": "wino-blogger",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "query variable json api google blogger withoot token",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/Zizwar/wino-blogger.git"
   },
-  "types": "./winoblogger.d.ts",
+  "types": "module",
   "keywords": [
     "query",
     "blogger",

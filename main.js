@@ -1,12 +1,3 @@
-export const regexs = {
-  https: 'https(.*?)"',
-  dictionary: "{(.*?)}",
-  tuple: "((.*?))",
-  array: "[(.*?)]",
-  src: ' src="(.*?)" ',
-  video: "<iframe*(.*?) src='*(.*?)' ",
-  custom: (_r) => _r,
-};
 function regexIno(content, pattern = new RegExp(regexs.dictionary, "g")) {
   let match;
   const matchArr = [];
@@ -17,16 +8,19 @@ function regexIno(content, pattern = new RegExp(regexs.dictionary, "g")) {
   return matchArr;
 }
 //get all post each categories
-export const urlJsonSearchPostsCategories = ({
+function urlJsonSearchPostsCategories({
   category = "",
   postId = "",
   query = "",
   blogUrl = process?.env?.URL_GOOGLE_BLOG,
   blogId = process?.env?.ID_GOOGLE_BLOG,
-}) =>
-  `${blogUrl || "https://www.blogger.com/" + blogId
-  }/feeds/posts/default/${postId}${category ? `-/${category}` : ""
+}) {
+  return `${
+    blogUrl || "https://www.blogger.com/" + blogId
+  }/feeds/posts/default/${postId}${
+    category ? `-/${category}` : ""
   }?alt=json&${query}`;
+}
 //fet llop
 export default class WinoBlogger {
   blogUrl; // if blogUrl not req blogId
@@ -142,6 +136,15 @@ function getPost(
   },
   variables = []
 ) {
+  const regexs = {
+    https: 'https(.*?)"',
+    dictionary: "{(.*?)}",
+    tuple: "((.*?))",
+    array: "[(.*?)]",
+    src: ' src="(.*?)" ',
+    video: "<iframe*(.*?) src='*(.*?)' ",
+    custom: (_r) => _r,
+  };
   _content = _content.replace(/&nbsp;/gi, "");
   //get videos array
   const _videos = new RegExp(regexs.video, "g").exec(_content) || [];
@@ -151,29 +154,36 @@ function getPost(
     regexIno(_content, new RegExp(regexs.src, "g"))?.map((img = "") => img) ||
     [];
   const content = _content.replace(/(<([^>]+)>)/gi, "");
-  function getVar(variable, value = "string") {
+  function getVar({ key, type = "string", regex }) {
     let _res =
-      regexIno(_content, new RegExp(`${variable}*[:=]*(.*?)[;<]`, "g")) || [];
+      regexIno(_content, new RegExp(regex || `${key}*[:=]*(.*?)[;<]`, "g")) ||
+      [];
     //console.log({ _res });
-    if (value === "full") return _res;
+    if (type === "full") return _res;
     let res = _res[0];
-    if (value === "number")
+    if (type === "number")
       return res?.match(/\d+(\.\d+)?/g)?.map((_r) => +_r)[0] || 0;
-    if (value === "array") return res?.split(",")?.filter((_r) => _r !== "");
+    if (type === "array") return res?.split(",")?.filter((_r) => _r !== "");
     return res;
   }
   //console.log({ variables });
   const vars = [];
+  /*
   variables &&
     Object.entries(variables).forEach(([key, value]) => {
       vars[key] = getVar(key, value);
       //  console.log(`${key}: ${value}`);
     });
+    */
+  variables &&
+    variables.forEach((variable) => {
+      vars[key] = getVar(variable);
+    });
   ///
   const categories = category?.map((cat) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
   const id = _id.split("post-")[1];
-  return {
+  const data = {
     id,
     name,
     thumbnail,
@@ -188,15 +198,16 @@ function getPost(
     updated,
     ...vars,
   };
+  if (categories?.includes("$")) return { $: data };
+  return { data };
 }
 function getPosts(dataPosts = [], variables) {
   const posts = [];
+  const fnk = [];
   dataPosts.feed?.entry?.forEach((entry) => {
     const post = getPost(entry, variables);
-    if (post) {
-      posts.push(post);
-    }
+    if (post.$) fnk.push(post.$);
+    else posts.push(post.data);
   });
-  return posts;
+  return { data: posts, $: fnk };
 }
-

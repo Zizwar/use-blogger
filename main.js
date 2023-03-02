@@ -12,8 +12,8 @@ function urlJsonSearchPostsCategories({
   category = "",
   postId = "",
   query = "",
-  blogUrl = process?.env?.URL_GOOGLE_BLOG,
-  blogId = process?.env?.ID_GOOGLE_BLOG,
+  blogUrl,
+  blogId,
 }) {
   return `${
     blogUrl || "https://www.blogger.com/" + blogId
@@ -32,8 +32,8 @@ export default class WinoBlogger {
   postId = "";
   query = "";
   variables = [];
-  constructor(props = []) {
-    const { blogId, isBrowser, saveTmp, blogUrl } = props;
+  constructor(props) {
+    const { blogId = "", isBrowser, saveTmp, blogUrl = "" } = props || [];
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.saveTmp = saveTmp;
@@ -57,7 +57,7 @@ export default class WinoBlogger {
     this.query += `q=${text}&`;
     return this;
   }
-  limit(n = 1) {
+  limit(n = 3) {
     this.query += `max-results=${n}&`;
     return this;
   }
@@ -158,7 +158,7 @@ function getPost(
     let _res =
       regexIno(_content, new RegExp(regex || `${key}*[:=]*(.*?)[;<]`, "g")) ||
       [];
-    //console.log({ _res });
+
     if (type === "full") return _res;
     let res = _res[0];
     if (type === "number")
@@ -166,18 +166,11 @@ function getPost(
     if (type === "array") return res?.split(",")?.filter((_r) => _r !== "");
     return res;
   }
-  //console.log({ variables });
+
   const vars = [];
-  /*
   variables &&
-    Object.entries(variables).forEach(([key, value]) => {
-      vars[key] = getVar(key, value);
-      //  console.log(`${key}: ${value}`);
-    });
-    */
-  variables &&
-    variables.forEach((variable) => {
-      vars[key] = getVar(variable);
+    variables.forEach(({ key, type, regex }) => {
+      vars[key] = getVar({ key, type, regex });
     });
   ///
   const categories = category?.map((cat) => cat.term) || [];

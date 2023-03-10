@@ -11,7 +11,7 @@ export const matcher = {
 export default class WinoBlogger {
   blogUrl: string; // if blogUrl not req blogId
   blogId: string; //if blogId not req blogeUrl
-  saveTmp: any;
+  save: any;
   isBrowser: boolean;
   data: any;
   category: string = "";
@@ -20,15 +20,15 @@ export default class WinoBlogger {
   variables: any[] = [];
 
   constructor(props: {
-    blogId?: string;
+    blogId?: string | undefined;
     isBrowser: boolean;
-    saveTmp: any;
+    save: any;
     blogUrl?: string;
   }) {
-    const { blogId = "", isBrowser, saveTmp, blogUrl = "" } = props || [];
+    const { blogId = "", isBrowser, save, blogUrl = "" } = props
     this.blogId = blogId;
     this.isBrowser = isBrowser;
-    this.saveTmp = saveTmp;
+    this.save = save;
     this.blogUrl = blogUrl;
   }
 
@@ -58,7 +58,7 @@ export default class WinoBlogger {
     return this;
   }
 
-  skip(n: number): WinoBlogger {
+  skip(n: number = 1): WinoBlogger {
     if (n) this.query += `start-index=${n}&`;
     return this;
   }
@@ -242,8 +242,7 @@ function getPost(
     category: categories[0],
     updated,
     ...vars,
-    content: "",
-    contentHTML: "",
+
   };
   if (categories?.includes("$")) return { $: data };
   return { data };
@@ -264,7 +263,7 @@ function regexIno(
   content: string,
   pattern: RegExp = new RegExp(matcher.dictionary, "g")
 ): string[] {
-  let match;
+  let match: any[];
   const matchArr = [];
   while ((match = pattern.exec(content))) {
     match = match[1]?.trim();
@@ -286,9 +285,7 @@ function urlJsonSearchPostsCategories({
   blogUrl?: string;
   blogId?: string;
 }): string {
-  return `${
-    blogUrl || "https://www.blogger.com/" + blogId
-  }/feeds/posts/default/${postId}${
-    category ? `-/${category}` : ""
-  }?alt=json&${query}`;
+  return `${blogUrl || "https://www.blogger.com/" + blogId
+    }/feeds/posts/default/${postId}${category ? `-/${category}` : ""
+    }?alt=json&${query}`;
 }

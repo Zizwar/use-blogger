@@ -32,7 +32,7 @@ function urlJsonSearchPostsCategories({
   }?alt=json&${query}`;
 }
 //fet llop
-export default class WinoBlogger {
+export default class UseBlogger {
   blogUrl; // if blogUrl not req blogId
   blogId; //if blogId not req blogeUrl
   save;

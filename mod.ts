@@ -1,2 +1,2 @@
-import denoBlogger from './main.ts';
+import denoBlogger from './src/main';
 export default denoBlogger

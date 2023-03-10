@@ -2,7 +2,7 @@
   "name": "wino-blogger",
   "version": "0.9.0",
   "description": "query variable json api google blogger withoot token",
-  "main": "dist/main.js",
+  "main": "main.js",
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "run-s build",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/Zizwar/wino-blogger.git"
   },
-  "types": "module",
+  "type": "module",
   "keywords": [
     "query",
     "blogger",
@@ -33,5 +33,8 @@
   "devDependencies": {
     "npm-run-all": "^4.1.5",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "wino-blogger": "^0.9.0"
   }
 }

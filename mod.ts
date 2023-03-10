@@ -1,2 +1,2 @@
-import denoBlogger from './src/main';
+import denoBlogger from './main';
 export default denoBlogger

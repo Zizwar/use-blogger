@@ -25,25 +25,23 @@ function urlJsonSearchPostsCategories({
   blogUrl,
   blogId,
 }) {
-  return `${
-    blogUrl || "https://www.blogger.com/" + blogId
-  }/feeds/posts/default/${postId}${
-    category ? `-/${category}` : ""
-  }?alt=json&${query}`;
+  return `${blogUrl || "https://www.blogger.com/" + blogId
+    }/feeds/posts/default/${postId}${category ? `-/${category}` : ""
+    }?alt=json&${query}`;
 }
 //fet llop
 export default class UseBlogger {
-  blogUrl=""; // if blogUrl not req blogId
-  blogId=""; //if blogId not req blogeUrl
+  blogUrl = ""; // if blogUrl not req blogId
+  blogId = ""; //if blogId not req blogeUrl
   save;
-  isBrowser=false;
-  data=[];
+  isBrowser = false;
+  data = [];
   category = "";
   postId = "";
   query = "";
   variables = [];
-  constructor(props=[]) {
-    const { blogId, isBrowser, save, blogUrl} = props ;
+  constructor(props = []) {
+    const { blogId, isBrowser, save, blogUrl } = props;
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.save = save;
@@ -79,15 +77,15 @@ export default class UseBlogger {
     this.query += `max-results=${n}&`;
     return this;
   }
-  select(_select= []){
+  select(_select = []) {
     this.selcted = _select;
   }
 
-  unselect(_select= []){
+  unselect(_select = []) {
     this.unselcted = _select;
   }
-  skip(n=3) {
-   this.query += `start-index=${n}&`;
+  skip(n = 3) {
+    this.query += `start-index=${n}&`;
     return this;
   }
   orderby(value = "published") {
@@ -134,12 +132,16 @@ export default class UseBlogger {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        if(this.save)this.save(data)
+        if (this.save) this.save(data)
         this.data = await response.json();
       }
-      return this.postId
+
+      const resault = this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
+      if (this.callback)
+        this.callback(resault)
+      return resault
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);
     }

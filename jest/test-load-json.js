@@ -1,4 +1,4 @@
-import WinoBlogger from "wino-blogger";
+import useBlogger from "../main.js";
 
 const variables = [
   { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },
@@ -10,9 +10,9 @@ const variables = [
 ];
 
 const blogId = "8277077996046083588";
-
+const blogUrl= "https://merymar-shop.blogspot.com"
 async function myFunction() {
-  const wb = new WinoBlogger({ blogId });
+  const wb = new useBlogger({ blogUrl,blogId });
   const data = await wb.load(variables);
   console.log(data);
 }

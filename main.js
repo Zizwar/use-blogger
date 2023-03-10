@@ -1,3 +1,5 @@
+
+
 const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
@@ -25,14 +27,14 @@ function urlJsonSearchPostsCategories({
   blogUrl,
   blogId,
 }) {
-  return `${blogUrl || "https://www.blogger.com/" + blogId
-    }/feeds/posts/default/${postId}${category ? `-/${category}` : ""
+  return `${blogUrl ? `${blogUrl}/feeds` : `https://www.blogger.com/feeds/${blogId}`
+    }/posts/default/${postId}${category ? `-/${category}` : ""
     }?alt=json&${query}`;
 }
 //fet llop
 export default class UseBlogger {
   blogUrl = ""; // if blogUrl not req blogId
-  blogId = ""; //if blogId not req blogeUrl
+  blogId = "" //if blogId not req blogeUrl
   save;
   isBrowser = false;
   data = [];
@@ -40,6 +42,10 @@ export default class UseBlogger {
   postId = "";
   query = "";
   variables = [];
+  unselcted = [];
+  selcted = [];
+  uncategory = [];
+
   constructor(props = []) {
     const { blogId, isBrowser, save, blogUrl } = props;
     this.blogId = blogId;
@@ -84,7 +90,7 @@ export default class UseBlogger {
   unselect(_select = []) {
     this.unselcted = _select;
   }
-  skip(n = 3) {
+  skip(n = 1) {
     this.query += `start-index=${n}&`;
     return this;
   }
@@ -119,16 +125,15 @@ export default class UseBlogger {
   async load(variables) {
     try {
       const { category, postId, query, blogUrl, blogId } = this;
-      if (!this.data) {
-        const response = await fetch(
-          urlJsonSearchPostsCategories({
-            category,
-            postId,
-            query,
-            blogUrl,
-            blogId,
-          })
-        );
+      if (!this.data?.length) {
+        const url = urlJsonSearchPostsCategories({
+          category,
+          postId,
+          query,
+          blogUrl,
+          blogId,
+        })
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -187,10 +192,21 @@ function getPost(
   }
 
   const vars = [];
-  variables &&
-    variables.forEach(({ key, type, regex }) => {
-      vars[key] = getVar({ key, type, regex });
-    });
+
+  variables?.forEach(({ key, type, regex, asArray, as }) => {
+    const _var = getVar({ key, type, regex });
+    const asOrKey = as || key;
+    if (_var) {
+      if (asArray) {
+        vars[asArray] = {
+          ...(vars[asArray] || {}),
+          [asOrKey]: _var,
+        };
+      } else {
+        vars[asOrKey] = _var;
+      }
+    }
+  });
   ///
   const categories = category?.map((cat) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
@@ -203,8 +219,8 @@ function getPost(
     videos,
     link,
     images,
-    content,
-    contentHTML: _content,
+    text: content,
+    html: _content,
     categories,
     category: categories[0],
     updated,

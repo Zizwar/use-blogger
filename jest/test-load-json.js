@@ -1,20 +1,27 @@
-import useBlogger from "../main.js";
+import UseBlogger from "../main.js";
 
 const variables = [
   { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },
   { key: "discount", type: "number" },
-  { key: "quantityAvailable", type: "number" },
+  { key: "quantityAvailable", type: "number", as: "qnt" },
   { key: "currentPrice", type: "number" },
-  { key: "sizes", type: "array" },
-  { key: "colors", type: "array" },
+  { key: "sizes", type: "array", asArray: "options" },
+  {
+    key: "colors", type: "array", asArray: "options"
+  },
 ];
 
-const blogId = "8277077996046083588";
-const blogUrl= "https://merymar-shop.blogspot.com"
-async function myFunction() {
-  const wb = new useBlogger({ blogUrl,blogId });
-  const data = await wb.load(variables);
-  console.log(data);
+
+async function myJsonBlogger() {
+  const blogId = "8277077996046083588";
+  //or
+  const blogUrl = ""
+
+  const wb = new UseBlogger({ blogUrl, blogId });
+  const res = await wb.load(variables);
+  console.log(res.data);
+  //console.log("name =", res?.data[0].options);
+  console.log("lngth=" + res?.data.length)
 }
 
-myFunction();
+myJsonBlogger();

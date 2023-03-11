@@ -1,4 +1,5 @@
-import UseBlogger from "../main.js";
+//import UseBlogger from "../main.js";
+import UseBlogger from "use-blogger";
 
 const variables = [
   { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },

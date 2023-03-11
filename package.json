@@ -3,11 +3,6 @@
   "version": "0.9.1",
   "description": "query variable json api google blogger withoot token",
   "main": "main.js",
-  "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "run-s build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zizwar/use-blogger.git"

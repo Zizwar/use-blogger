@@ -1,5 +1,4 @@
 
-
 const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",

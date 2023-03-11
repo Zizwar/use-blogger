@@ -1,16 +1,17 @@
 # UseBlogger
+This script retrieves variables from a Blogger post and organizes all photos and videos into separate groups. Additionally, it collects all values defined in the variables and returns all threads in JSON format.
 
 This is a JavaScript ES6 module that can be used to fetch data from a Blogger blog's json API without Token.
-
-#Dependencies
+# Dependencies
 There are no external dependencies needed for this module.
+
 
 # Installation
 You can download the main.js file and use it in your project, or install it using npm:
 ```sh
 npm install use-blogger --save
 ```
-
+# Usage
 ```js
 import UseBlogger from "use-blogger";
 
@@ -44,7 +45,7 @@ The UseBlogger class is the main class of this module and is responsible for mak
 
 # Constructor
 new UseBlogger(props): Creates a new instance of the UseBlogger class with the following properties:
-- 
+
 - props.blogId (optional): The ID of the blog to fetch data from.
 - props.blogUrl (optional): The URL of the blog to fetch data from.
 - props.isBrowser (optional): If true, the request is made in the browser environment. Default is - false.
@@ -67,5 +68,3 @@ new UseBlogger(props): Creates a new instance of the UseBlogger class with the f
 - published(dateMin, dateMax): Sets the range of published dates to include in the response.
 - updated(dateMin, dateMax): Sets the range of updated dates to include in the response.
 - load(variables): Makes a request to the Blogger API and returns the response. Takes an array of objects that define the data to be fetched.
-regexIno
-A helper function to extract data from a string using regular expressions.

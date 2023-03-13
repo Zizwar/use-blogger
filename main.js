@@ -44,6 +44,7 @@ export default class UseBlogger {
   unselcted = [];
   selcted = [];
   uncategory = [];
+  _callback;
 
   constructor(props = []) {
     const { blogId, isBrowser, save, blogUrl } = props;
@@ -100,7 +101,7 @@ export default class UseBlogger {
   }
   //
   callback(cb) {
-    this.callback = cb;
+    this._callback = cb;
     return this;
   }
   setData(data) {
@@ -143,8 +144,11 @@ export default class UseBlogger {
       const resault = this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
-      if (this.callback)
-        this.callback(resault)
+        if (typeof this._callback === 'function') {
+          this._callback(resault);
+        }
+        
+        
       return resault
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);

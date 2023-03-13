@@ -1,12 +1,13 @@
 {
   "name": "use-blogger",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "query variable json api google blogger withoot token",
   "main": "main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zizwar/use-blogger.git"
   },
+  "types": "use-blogger.d.ts",
   "type": "module",
   "keywords": [
     "query",
@@ -25,7 +26,5 @@
     "url": "https://github.com/Zizwar/use-blogger/issues"
   },
   "homepage": "https://github.com/Zizwar/use-blogger#readme",
-  "dependencies": {
-    "use-blogger": "^0.9.2"
-  }
+  
 }

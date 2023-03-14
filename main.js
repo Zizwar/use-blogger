@@ -1,4 +1,3 @@
-
 const matcher = {
   https: 'https(.*?)"',
   dictionary: "{(.*?)}",
@@ -33,7 +32,7 @@ function urlJsonSearchPostsCategories({
 //fet llop
 export default class UseBlogger {
   blogUrl = ""; // if blogUrl not req blogId
-  blogId = "" //if blogId not req blogeUrl
+  blogId = ""; //if blogId not req blogeUrl
   save;
   isBrowser = false;
   data = [];
@@ -41,13 +40,13 @@ export default class UseBlogger {
   postId = "";
   query = "";
   variables = [];
-  unselcted = [];
-  selcted = [];
+  unselected = [];
+  selected = [];
   uncategory = [];
   _callback;
 
-  constructor(props = []) {
-    const { blogId, isBrowser, save, blogUrl } = props;
+  constructor(props = {}) {
+    const { blogId, isBrowser, save, blogUrl = "" } = props;
     this.blogId = blogId;
     this.isBrowser = isBrowser;
     this.save = save;
@@ -63,11 +62,11 @@ export default class UseBlogger {
     return this;
   }
   labels(_categories = []) {
-    this.categories(_categories)
+    this.categories(_categories);
     return this;
   }
   unlabels(_categories = []) {
-    this.uncategories(_categories)
+    this.uncategories(_categories);
     return this;
   }
   post(postId = "") {
@@ -84,11 +83,11 @@ export default class UseBlogger {
     return this;
   }
   select(_select = []) {
-    this.selcted = _select;
+    this.selected = _select;
   }
 
   unselect(_select = []) {
-    this.unselcted = _select;
+    this.unselected = _select;
   }
   skip(n = 1) {
     this.query += `start-index=${n}&`;
@@ -132,24 +131,53 @@ export default class UseBlogger {
           query,
           blogUrl,
           blogId,
-        })
+        });
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        if (this.save) this.save(data)
+        if (this.save) this.save(data);
         this.data = await response.json();
       }
 
       const resault = this.postId
         ? getPost(this.data?.entry, variables)
         : getPosts(this.data, variables);
-        if (typeof this._callback === 'function') {
-          this._callback(resault);
-        }
-        
-        
-      return resault
+      if (typeof this._callback === "function") {
+        this._callback(resault);
+      }
+      //selected variable
+      if (this.selected.length) {
+        resault.data = resault?.data
+          .filter((obj) =>
+            this.selected.every((prop) => obj.hasOwnProperty(prop))
+          )
+          .map(
+            (obj) =>
+              this.selected.reduce((acc, prop) => {
+                acc[prop] = obj[prop];
+                return acc;
+              }, {}) || []
+          );
+      }
+
+      //unselected variable
+      //this.unselected.length && resault?.data?.forEach(key => this.unselected[key] && delete resault.data[key]);
+      if (this.unselected.length) {
+        resault.data = resault?.data.reduce((acc, obj) => {
+          const filteredObj = {};
+          for (const key in obj) {
+            if (!this.unselected.includes(key)) {
+              filteredObj[key] = obj[key];
+            }
+          }
+          if (Object.keys(filteredObj).length > 0) {
+            acc.push(filteredObj);
+          }
+          return acc;
+        }, []);
+      }
+      return resault;
     } catch (error) {
       console.error("There was a problem with the fetch request:", error);
     }
@@ -181,7 +209,8 @@ function getPost(
     regexIno(_content, new RegExp(matcher.src, "g"))?.map((img = "") => img) ||
     [];
   const content = _content.replace(/(<([^>]+)>)/gi, "");
-  function getVar({ key, type = "string", regex }) {
+
+  function getVariable({ key, type = "string", regex }) {
     let _res =
       regexIno(_content, new RegExp(regex || `${key}*[:=]*(.*?)[;<]`, "g")) ||
       [];
@@ -197,7 +226,7 @@ function getPost(
   const vars = [];
 
   variables?.forEach(({ key, type, regex, asArray, as }) => {
-    const _var = getVar({ key, type, regex });
+    const _var = getVariable({ key, type, regex });
     const asOrKey = as || key;
     if (_var) {
       if (asArray) {
@@ -210,7 +239,8 @@ function getPost(
       }
     }
   });
-  ///
+
+  //
   const categories = category?.map((cat) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
   const id = _id.split("post-")[1];
@@ -273,6 +303,12 @@ const { ...selectedData } = data;
 selected.forEach(key => delete selectedData[key]);
 
 console.log(selectedData);
+
+for (const key in data) {
+  if (!this.unselected.includes(key)) {
+    selectedData[key] = data[key];
+  }
+}
 
 
 */

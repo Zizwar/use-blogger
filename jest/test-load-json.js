@@ -1,5 +1,5 @@
-//import UseBlogger from "../main.js";
-import UseBlogger from "use-blogger";
+import UseBlogger from "../main.js";
+//import UseBlogger from "use-blogger";
 
 const variables = [
   { key: "price", type: "number", regex: "price*[:=]*(.*?)[;<]" },
@@ -19,8 +19,9 @@ async function myJsonBlogger() {
   const blogUrl = ""
 
   const wb = new UseBlogger({ blogUrl, blogId });
+  wb.select(["id","text","price","options"])
   const res = await wb.load(variables);
-  console.log(res.data);
+  console.info(res.data);
   //console.log("name =", res?.data[0].options);
   console.log("lngth=" + res?.data.length)
 }

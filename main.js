@@ -187,8 +187,8 @@ export default class UseBlogger {
     return await this.load(variables);
   }
 }
-function getPost(
-  {
+function getPost(entry, variables = []) {
+  const {
     id: { $t: _id },
     content: { $t: _content },
     media$thumbnail, //: thumbnail,//{ url: thumbnail },
@@ -197,9 +197,8 @@ function getPost(
     title: { $t: name },
     category,
     link,
-  },
-  variables = []
-) {
+  } = entry;
+
   _content = _content.replace(/&nbsp;/gi, "");
   //get videos array
   const _videos = new RegExp(matcher.video, "g").exec(_content) || [];
@@ -244,7 +243,9 @@ function getPost(
   const categories = category?.map((cat) => cat.term) || [];
   const thumbnail = media$thumbnail?.url;
   const id = _id.split("post-")[1];
+
   const data = {
+    
     id,
     name,
     thumbnail,
@@ -257,6 +258,7 @@ function getPost(
     categories,
     category: categories[0],
     updated,
+    entry,
     ...vars,
   };
   if (categories && categories.indexOf("$") !== -1) {

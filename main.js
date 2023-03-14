@@ -276,19 +276,6 @@ function getPosts(dataPosts = [], variables) {
 }
 
 /*
-const numToSmallString = (num) => {
-  const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
-  let result = '';
-
-  while (num > 0) {
-    const digit = num % 36;
-    result = alphabet[digit] + result;
-    num = Math.floor(num / 36);
-  }
-
-  return result || '0';
-};
-
 const smallStringToNum = (smallStr) => {
   const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
   let result = 0;
@@ -305,17 +292,24 @@ const smallStringToNum = (smallStr) => {
 };
 
 const convertNum = (strOrNum) => {
+  let num;
   if (typeof strOrNum === 'number') {
-    return numToSmallString(strOrNum);
+    num = strOrNum;
   } else if (typeof strOrNum === 'string') {
-    return smallStringToNum(strOrNum);
+    // Try to convert the string to a number
+    num = Number(strOrNum);
+    if (isNaN(num)) {
+      throw new Error('Input must be a number or a string that can be converted to a number');
+    }
   } else {
     throw new Error('Input must be a number or a string');
   }
+
+  return numToSmallString(num);
 };
 
 console.log(convertNum(8277077996046083588)); // Output: "4w5ue5ld5pmc"
 console.log(convertNum("4w5ue5ld5pmc")); // Output: 8277077996046083588
-
+console.log(convertNum("8277077996046083588")); // Output: "4w5ue5ld5pmc"
 
 */

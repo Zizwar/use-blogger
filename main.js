@@ -259,7 +259,9 @@ function getPost(
     updated,
     ...vars,
   };
-  if (categories?.includes("$")) return { $: data };
+  if (categories && categories.indexOf("$") !== -1) {
+    return { $: data };
+  }
   return { data };
 }
 function getPosts(dataPosts = [], variables) {
@@ -272,43 +274,3 @@ function getPosts(dataPosts = [], variables) {
   });
   return { data: posts, $: fnk };
 }
-
-/*
-const unselected = [
-  "id",
-  "name",
-  "thumbnail",
-  "published",
-  "videos"
-];
-
-const newData = Object.keys(data).reduce((acc, key) => {
-  if (!unselected.includes(key)) {
-    acc[key] = data[key];
-  }
-  return acc;
-}, {});
-
-console.log(newData);
-____
-const selected = [
-  "id",
-  "name",
-  "thumbnail",
-  "published",
-  "videos"
-];
-
-const { ...selectedData } = data;
-selected.forEach(key => delete selectedData[key]);
-
-console.log(selectedData);
-
-for (const key in data) {
-  if (!this.unselected.includes(key)) {
-    selectedData[key] = data[key];
-  }
-}
-
-
-*/

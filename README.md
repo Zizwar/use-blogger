@@ -11,6 +11,10 @@ You can download the main.js file and use it in your project, or install it usin
 ```sh
 npm install use-blogger --save
 ```
+in deno land
+```js
+import * as denoblogger from "https://deno.land/x/denoblogger@v0.9.3/mod.js";
+```
 # Usage
 ```js
 import UseBlogger from "use-blogger";

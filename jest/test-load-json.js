@@ -19,7 +19,7 @@ async function myJsonBlogger() {
   const blogUrl = ""
 
   const wb = new UseBlogger({ blogUrl, blogId });
-  wb.select(["id","text","price","options"])
+  wb.unselect(["html","text","price","options"])
   const res = await wb.load(variables);
   console.info(res.data);
   //console.log("name =", res?.data[0].options);

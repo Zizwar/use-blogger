@@ -1,6 +1,6 @@
 {
   "name": "use-blogger",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "query variable json api google blogger withoot token",
   "main": "main.js",
   "repository": {

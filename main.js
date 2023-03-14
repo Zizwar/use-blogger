@@ -274,3 +274,48 @@ function getPosts(dataPosts = [], variables) {
   });
   return { data: posts, $: fnk };
 }
+
+/*
+const numToSmallString = (num) => {
+  const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
+  let result = '';
+
+  while (num > 0) {
+    const digit = num % 36;
+    result = alphabet[digit] + result;
+    num = Math.floor(num / 36);
+  }
+
+  return result || '0';
+};
+
+const smallStringToNum = (smallStr) => {
+  const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
+  let result = 0;
+  let multiplier = 1;
+
+  for (let i = smallStr.length - 1; i >= 0; i--) {
+    const char = smallStr[i];
+    const digit = alphabet.indexOf(char);
+    result += digit * multiplier;
+    multiplier *= 36;
+  }
+
+  return result;
+};
+
+const convertNum = (strOrNum) => {
+  if (typeof strOrNum === 'number') {
+    return numToSmallString(strOrNum);
+  } else if (typeof strOrNum === 'string') {
+    return smallStringToNum(strOrNum);
+  } else {
+    throw new Error('Input must be a number or a string');
+  }
+};
+
+console.log(convertNum(8277077996046083588)); // Output: "4w5ue5ld5pmc"
+console.log(convertNum("4w5ue5ld5pmc")); // Output: 8277077996046083588
+
+
+*/

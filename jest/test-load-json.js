@@ -19,9 +19,11 @@ async function myJsonBlogger() {
   const blogUrl = ""
 
   const wb = new UseBlogger({ blogUrl, blogId });
-  wb.unselect(["html","text","price","options"])
+  wb.categories(["json"]).select(["text"])
   const res = await wb.load(variables);
   console.info(res.data);
+  const name =JSON.parse( res.data[0]?.text)?.name
+  console.log('name=',name)
   //console.log("name =", res?.data[0].options);
   console.log("lngth=" + res?.data.length)
 }

@@ -1,7 +1,25 @@
 # UseBlogger
-This script retrieves variables from a Blogger post and organizes all photos and videos into separate groups. Additionally, it collects all values defined in the variables and returns all threads in JSON format.
+The UseBlogger library is a JavaScript ES6 module that allows developers to easily retrieve data from a Blogger blog's JSON API without requiring a token. The library organizes all photos and videos in a post into separate groups, and collects all values defined in the variables, returning all threads in JSON format.
 
-This is a JavaScript ES6 module that can be used to fetch data from a Blogger blog's json API without Token.
+To use the library, simply import it into your project and create a new instance of the UseBlogger class, passing in the ID or URL of the blog you want to fetch data from. You can then call the load method on your UseBlogger instance and pass in an array of objects that define the data you want to fetch. These objects should include a key property to specify the name of the variable, a type property to specify the data type, and any additional information necessary to extract the value of the variable if needed.
+
+The variables array is an array of objects that defines the variables to be extracted from a Blogger API using the UseBlogger library. 
+
+Each object in the array contains properties that specify the name of the variable (key), the data type of the variable (type), and additional information about the variable if necessary. 
+
+For example, the first object in the array specifies that the variable name is price, the data type is number, and the regular expression to extract the value of the variable from the blog post is "price*[:=]*(.*?)[;<]". 
+
+The second object specifies that the variable name is discount and the data type is number, but no additional information is needed to extract the value of the variable. 
+
+The third object specifies that the variable name is quantityAvailable, the data type is number, and the as property is used to provide an alias for the variable (qnt). 
+
+The fourth object specifies that the variable name is currentPrice and the data type is number, but no additional information is needed to extract the value of the variable. 
+
+The fifth and sixth objects specify that the variable names are sizes and colors, respectively, and the data type is array. The asArray property is used to provide an alias for the variables (options). 
+
+The UseBlogger class has several methods that allow you to further customize your data request, such as setting categories or labels to fetch data from or excluding categories or labels from the fetched data, setting the ID of a specific post to fetch, adding a search query to the request, setting the maximum number of posts to fetch, selecting or excluding certain fields from the response, setting the number of posts to skip, and setting the field to order the response by.
+
+The UseBlogger class also has methods for setting the range of published or updated dates to include in the response, as well as methods for setting a callback function to execute after the data is fetched, setting the data for the current instance, and getting the data for the current instance.
 # Dependencies
 There are no external dependencies needed for this module.
 

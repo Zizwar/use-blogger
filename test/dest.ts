@@ -94,3 +94,4 @@ async function myFunction() {
 
 myFunction();
 
+// test in deno deploy: https://dash.deno.com/playground/denoblogger

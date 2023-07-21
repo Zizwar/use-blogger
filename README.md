@@ -47,7 +47,7 @@ async function myJsonBlogger() {
 
 myJsonBlogger();
 ```
-Demo in Deno
+# Demo in Deno
 https://dash.deno.com/playground/denoblogger
 
 The variables array is an array of objects that defines the variables to be extracted from a Blogger API using the UseBlogger library. 

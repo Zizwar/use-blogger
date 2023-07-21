@@ -47,6 +47,9 @@ async function myJsonBlogger() {
 
 myJsonBlogger();
 ```
+Demo in Deno
+https://dash.deno.com/playground/denoblogger
+
 The variables array is an array of objects that defines the variables to be extracted from a Blogger API using the UseBlogger library. 
 
 Each object in the array contains properties that specify the name of the variable (key), the data type of the variable (type), and additional information about the variable if necessary. 
@@ -89,3 +92,4 @@ new UseBlogger(props): Creates a new instance of the UseBlogger class with the f
 - published(dateMin, dateMax): Sets the range of published dates to include in the response.
 - updated(dateMin, dateMax): Sets the range of updated dates to include in the response.
 - load(variables): Makes a request to the Blogger API and returns the response. Takes an array of objects that define the data to be fetched.
+  
